@@ -7,7 +7,7 @@ import com.farfocle.accountsservice.dto.LoginResponse;
 import com.farfocle.accountsservice.dto.MessageResponse;
 import com.farfocle.accountsservice.dto.RegisterRequest;
 import com.farfocle.accountsservice.repository.User;
-import com.farfocle.accountsservice.repository.UserRepository;
+import com.farfocle.accountsservice.repository.AccountsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -28,13 +28,13 @@ import java.util.stream.Collectors;
 @RequestMapping(produces = "application/json")
 public class AccountsController {
 
-    private UserRepository userRepository;
+    private AccountsRepository userRepository;
     private BCryptPasswordEncoder passwordEncoder;
     private AuthenticationManager authenticationManager;
     private JwtUtils jwtUtils;
 
     @Autowired
-    public AccountsController(UserRepository userRepository, BCryptPasswordEncoder encoder, AuthenticationManager authenticationManager, JwtUtils jwtUtils){
+    public AccountsController(AccountsRepository userRepository, BCryptPasswordEncoder encoder, AuthenticationManager authenticationManager, JwtUtils jwtUtils){
         this.userRepository = userRepository;
         this.passwordEncoder = encoder;
         this.authenticationManager = authenticationManager;

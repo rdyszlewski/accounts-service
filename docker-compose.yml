@@ -1,0 +1,34 @@
+version: '3.6'
+services:
+  accounts-db:
+    image: mysql:latest
+    container_name: accounts-db
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=accounts
+      - MYSQL_USER=farfocle
+      - MYSQL_PASSWORD=farfoclle
+    ports:
+      - 33066:3306
+    restart: always
+    volumes:
+      - accounts-data:/var/lib/mysql
+
+  accounts-service:
+    build:
+      context: ./accounts-service
+      dockerfile: Dockerfile
+    container_name: accounts-service
+    depends_on:
+      - accounts-db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://accounts-db:3306/accounts
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+    ports:
+    - 8081:8081
+
+volumes:
+  accounts-data:
+  quiz-data:
+#    /mnt/414054776F940E4C/ServiceStore

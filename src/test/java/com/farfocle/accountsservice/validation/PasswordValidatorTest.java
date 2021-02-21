@@ -1,7 +1,6 @@
 package com.farfocle.accountsservice.validation;
 
-import com.farfocle.accountsservice.validation.exceptions.*;
-
+import com.farfocle.accountsservice.validation.exceptions.password.*;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;

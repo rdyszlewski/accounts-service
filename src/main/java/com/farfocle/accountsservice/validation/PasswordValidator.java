@@ -1,6 +1,6 @@
 package com.farfocle.accountsservice.validation;
 
-import com.farfocle.accountsservice.validation.exceptions.*;
+import com.farfocle.accountsservice.validation.exceptions.password.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 

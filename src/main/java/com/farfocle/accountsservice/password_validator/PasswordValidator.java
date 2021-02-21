@@ -17,9 +17,9 @@ public class PasswordValidator {
         for (Rule rule : rules){
             if(!rule.validate(password)){
                 result.addError(rule.getErrorDetails());
-            }
-            if(rule.isInterrupting()){
-                break;
+                if(rule.isInterrupting()){
+                    break;
+                }
             }
         }
         result.setValid(result.getErrors().isEmpty());

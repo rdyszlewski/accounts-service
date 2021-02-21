@@ -10,24 +10,26 @@ public class MaxLengthRule implements Rule{
     private boolean interrupting;
     private ErrorDetails errorDetails;
 
-    public MaxLengthRule(int minLength){
-        init(minLength);
+    public MaxLengthRule(int maxLength){
+        init(maxLength);
     }
 
-    public MaxLengthRule(int minLength, boolean interrupting){
-        init(minLength);
+    public MaxLengthRule(int maxLength, boolean interrupting){
+        init(maxLength);
         this.interrupting = interrupting;
     }
 
-    private void init(int minLength){
-        this.value = minLength;
+    private void init(int maxLength){
+        this.value = maxLength;
         this.errorDetails = new ErrorDetails(PasswordError.TOO_LONG, String.valueOf(value));
     }
 
     @Override
     public boolean validate(PasswordData password) {
-//        return password.length() <= value;
-        return false;
+        if(password == null || password.getPassword() == null){
+            throw new NullPointerException();
+        }
+        return password.getPassword().length() <= value;
     }
 
     @Override
@@ -39,5 +41,4 @@ public class MaxLengthRule implements Rule{
     public boolean isInterrupting() {
         return interrupting;
     }
-
 }

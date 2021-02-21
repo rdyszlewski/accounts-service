@@ -1,11 +1,11 @@
 package com.farfocle.accountsservice.password_validator.rules;
 
 import com.farfocle.accountsservice.password_validator.PasswordData;
+import com.farfocle.accountsservice.password_validator.PasswordError;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class LowercaseRuleTest {
 
@@ -49,5 +49,12 @@ public class LowercaseRuleTest {
 
         PasswordData nullPassword = new PasswordData(null);
         assertThatThrownBy(()->rule.validate(nullPassword)).isInstanceOf(NullPointerException.class);
+    }
+
+    @Test
+    public void shouldReturnCorrectErrorDetails(){
+        Rule rule = new LowercaseRule(2);
+        assertEquals(PasswordError.LOWERCASE, rule.getErrorDetails().getError());
+        assertEquals("2", rule.getErrorDetails().getValidValue());
     }
 }

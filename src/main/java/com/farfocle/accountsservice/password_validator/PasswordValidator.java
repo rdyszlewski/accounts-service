@@ -1,6 +1,5 @@
 package com.farfocle.accountsservice.password_validator;
 
-import com.farfocle.accountsservice.password_validator.exceptions.NullPasswordException;
 import com.farfocle.accountsservice.password_validator.rules.Rule;
 
 import java.util.List;

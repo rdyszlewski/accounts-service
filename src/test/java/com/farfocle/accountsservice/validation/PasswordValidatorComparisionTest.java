@@ -2,7 +2,6 @@ package com.farfocle.accountsservice.validation;
 
 import com.farfocle.accountsservice.password_validator.PasswordData;
 import com.farfocle.accountsservice.password_validator.ValidationResult;
-import com.farfocle.accountsservice.password_validator.exceptions.NullPasswordException;
 import com.farfocle.accountsservice.password_validator.rules.MaxLengthRule;
 import com.farfocle.accountsservice.password_validator.rules.MinLengthRule;
 import com.farfocle.accountsservice.password_validator.rules.Rule;

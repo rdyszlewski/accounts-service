@@ -1,11 +1,11 @@
 package com.farfocle.accountsservice.password_validator.rules;
 
 import com.farfocle.accountsservice.password_validator.PasswordData;
+import com.farfocle.accountsservice.password_validator.PasswordError;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class UppercaseRuleTest {
 
@@ -62,5 +62,12 @@ public class UppercaseRuleTest {
 
         PasswordData password3 = new PasswordData("ÖOppppp");
         assertTrue(rule.validate(password3));
+    }
+
+    @Test
+    public void shouldReturnCorrectErrorDetails(){
+        Rule rule = new UppercaseRule(2);
+        assertEquals(PasswordError.UPPERCASE, rule.getErrorDetails().getError());
+        assertEquals("2", rule.getErrorDetails().getValidValue());
     }
 }

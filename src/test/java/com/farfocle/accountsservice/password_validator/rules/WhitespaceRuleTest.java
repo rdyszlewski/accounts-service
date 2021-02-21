@@ -1,12 +1,12 @@
 package com.farfocle.accountsservice.password_validator.rules;
 
 import com.farfocle.accountsservice.password_validator.PasswordData;
+import com.farfocle.accountsservice.password_validator.PasswordError;
 import org.junit.Test;
 import org.springframework.security.core.parameters.P;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class WhitespaceRuleTest {
 
@@ -44,5 +44,12 @@ public class WhitespaceRuleTest {
 
         PasswordData nullPassword = new PasswordData(null);
         assertThatThrownBy(()->rule.validate(nullPassword)).isInstanceOf(NullPointerException.class);
+    }
+
+    @Test
+    public void shouldReturnCorrectErrorDetails(){
+        Rule rule = new WhitespaceRule();
+        assertEquals(PasswordError.WHITESPACE, rule.getErrorDetails().getError());
+        assertNull(rule.getErrorDetails().getValidValue());
     }
 }

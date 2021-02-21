@@ -1,14 +1,14 @@
 package com.farfocle.accountsservice.password_validator.rules;
 
 import com.farfocle.accountsservice.password_validator.PasswordData;
+import com.farfocle.accountsservice.password_validator.PasswordError;
 import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class SpecialCharactersRuleTest {
 
@@ -62,5 +62,12 @@ public class SpecialCharactersRuleTest {
 
         PasswordData password2 = new PasswordData("das#dj-");
         assertFalse(rule.validate(password2));
+    }
+
+    @Test
+    public void shouldReturnCorrectErrorDetails(){
+        Rule rule = new SpecialCharactersRule(2);
+        assertEquals(PasswordError.SPECIAL_CHARACTERS, rule.getErrorDetails().getError());
+        assertEquals("2", rule.getErrorDetails().getValidValue());
     }
 }

@@ -3,7 +3,6 @@ package com.farfocle.accountsservice.password_validator.rules;
 import com.farfocle.accountsservice.password_validator.ErrorDetails;
 import com.farfocle.accountsservice.password_validator.PasswordData;
 import com.farfocle.accountsservice.password_validator.PasswordError;
-import com.farfocle.accountsservice.password_validator.exceptions.NullPasswordException;
 import com.sun.istack.NotNull;
 
 public class MinLengthRule implements Rule{

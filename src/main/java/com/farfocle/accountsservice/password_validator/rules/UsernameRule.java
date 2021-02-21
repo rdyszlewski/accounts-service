@@ -4,38 +4,30 @@ import com.farfocle.accountsservice.password_validator.ErrorDetails;
 import com.farfocle.accountsservice.password_validator.PasswordData;
 import com.farfocle.accountsservice.password_validator.PasswordError;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-public class WhitespaceRule implements Rule{
+public class UsernameRule implements Rule{
 
     private ErrorDetails errorDetails;
-    private final String PATTERN = "(\\s)";
-    private Pattern pattern;
     private boolean interrupting;
 
-
-    public WhitespaceRule(){
+    public UsernameRule(){
         init();
     }
 
-    public WhitespaceRule(boolean interrupting){
+    public UsernameRule(boolean interrupting){
         init();
         this.interrupting = interrupting;
     }
 
     private void init(){
-        errorDetails = new ErrorDetails(PasswordError.WHITESPACE,null);
-        pattern = Pattern.compile(PATTERN);
+        errorDetails = new ErrorDetails(PasswordError.USERNAME, null);
     }
 
     @Override
     public boolean validate(PasswordData password) throws NullPointerException {
-        if(password == null || password.getPassword() == null){
+        if(password==null || password.getPassword() == null || password.getUsername() == null){
             throw new NullPointerException();
         }
-        Matcher matcher = pattern.matcher(password.getPassword());
-        return !matcher.find();
+        return !password.getPassword().equals(password.getUsername());
     }
 
     @Override

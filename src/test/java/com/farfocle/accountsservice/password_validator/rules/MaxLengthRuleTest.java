@@ -1,12 +1,12 @@
 package com.farfocle.accountsservice.password_validator.rules;
 
 import com.farfocle.accountsservice.password_validator.PasswordData;
+import com.farfocle.accountsservice.password_validator.PasswordError;
 import org.junit.Assert;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class MaxLengthRuleTest {
 
@@ -61,5 +61,10 @@ public class MaxLengthRuleTest {
         assertTrue(rule.validate(mixPassword));
     }
 
-
+    @Test
+    public void shouldReturnCorrectErrorDetails(){
+        Rule rule = new MaxLengthRule(8);
+        assertEquals(PasswordError.TOO_LONG, rule.getErrorDetails().getError());
+        assertEquals("8", rule.getErrorDetails().getValidValue());
+    }
 }

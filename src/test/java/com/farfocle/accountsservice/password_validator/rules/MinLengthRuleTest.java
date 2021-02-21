@@ -1,17 +1,17 @@
 package com.farfocle.accountsservice.password_validator.rules;
 
 import com.farfocle.accountsservice.password_validator.PasswordData;
-import com.farfocle.accountsservice.password_validator.exceptions.NullPasswordException;
+import com.farfocle.accountsservice.password_validator.PasswordError;
 import org.junit.Test;
 
+import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class MinLengthRuleTest {
 
     @Test
-    public void shouldReturnFalseWhenPasswordTooShort() throws NullPasswordException {
+    public void shouldReturnFalseWhenPasswordTooShort()  {
         MinLengthRule rule = new MinLengthRule(5);
         PasswordData emptyPassword = new PasswordData("");
         assertFalse(rule.validate(emptyPassword));
@@ -24,7 +24,7 @@ public class MinLengthRuleTest {
     }
 
     @Test
-    public void shouldReturnTrueWhenPasswordIsCorrect() throws NullPasswordException {
+    public void shouldReturnTrueWhenPasswordIsCorrect() {
         MinLengthRule rule = new MinLengthRule(5);
         PasswordData exactlyPassword = new PasswordData("aaaaa");
         assertTrue(rule.validate(exactlyPassword));
@@ -61,6 +61,13 @@ public class MinLengthRuleTest {
 
         PasswordData mixPassword = new PasswordData("1#śPo5>");
         assertTrue(rule.validate(mixPassword));
+    }
+
+    @Test
+    public void shouldReturnCorrectErrorDetails(){
+        Rule rule = new MinLengthRule(5);
+        assertEquals(PasswordError.TOO_SHORT, rule.getErrorDetails().getError());
+        assertEquals("5", rule.getErrorDetails().getValidValue());
     }
 
 }

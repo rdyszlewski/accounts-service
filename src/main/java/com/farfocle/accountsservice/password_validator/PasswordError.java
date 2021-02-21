@@ -6,5 +6,7 @@ public enum PasswordError {
     UPPERCASE,
     LOWERCASE,
     DIGITS,
-    SPECIAL_CHARACTERS
+    SPECIAL_CHARACTERS,
+    WHITESPACE,
+    USERNAME
 }

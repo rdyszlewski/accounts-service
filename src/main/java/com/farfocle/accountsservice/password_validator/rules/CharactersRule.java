@@ -10,18 +10,18 @@ public abstract class CharactersRule implements Rule{
     private boolean interrupting;
     private ErrorDetails errorDetails;
 
-    public CharactersRule(int value){
-        init(value);
+    public CharactersRule(int value, PasswordError errorType){
+        init(value, errorType);
     }
 
-    public CharactersRule(int value, boolean interrupting){
-        init(value);
+    public CharactersRule(int value, boolean interrupting, PasswordError errorType){
+        init(value, errorType);
         this.interrupting = interrupting;
     }
 
-    private void init(int validValue){
+    private void init(int validValue, PasswordError errorType){
         this.value = validValue;
-        this.errorDetails = new ErrorDetails(PasswordError.UPPERCASE, String.valueOf(validValue));
+        this.errorDetails = new ErrorDetails(errorType, String.valueOf(validValue));
     }
 
     @Override

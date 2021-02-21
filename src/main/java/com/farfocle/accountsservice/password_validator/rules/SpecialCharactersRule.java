@@ -1,5 +1,7 @@
 package com.farfocle.accountsservice.password_validator.rules;
 
+import com.farfocle.accountsservice.password_validator.PasswordError;
+
 import javax.xml.stream.events.Characters;
 import java.util.List;
 import java.util.Set;
@@ -11,23 +13,25 @@ public class SpecialCharactersRule extends CharactersRule{
 
     private Set<Integer> specialCharacters;
 
+    private final PasswordError errorType = PasswordError.SPECIAL_CHARACTERS;
+
     public SpecialCharactersRule(int value){
-        super(value);
+        super(value, PasswordError.SPECIAL_CHARACTERS);
         loadSpecialCharacters(null);
     }
 
     public SpecialCharactersRule(int value, boolean interrupting){
-        super(value, interrupting);
+        super(value, interrupting, PasswordError.SPECIAL_CHARACTERS);
         loadSpecialCharacters(null);
     }
 
     public SpecialCharactersRule(int value, List<Character> specialCharacters) {
-        super(value);
+        super(value, PasswordError.SPECIAL_CHARACTERS);
        loadSpecialCharacters(specialCharacters);
     }
 
     public SpecialCharactersRule(int value, boolean interrupting, List<Character> specialCharacters){
-        super(value, interrupting);
+        super(value, interrupting, PasswordError.SPECIAL_CHARACTERS);
         loadSpecialCharacters(specialCharacters);
     }
 

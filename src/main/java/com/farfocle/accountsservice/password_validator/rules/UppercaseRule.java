@@ -12,11 +12,11 @@ public class UppercaseRule extends CharactersRule {
     private ErrorDetails errorDetails;
 
     public UppercaseRule(int value){
-        super(value);
+        super(value, PasswordError.UPPERCASE);
     }
 
     public UppercaseRule(int value, boolean interrupting){
-        super(value, interrupting);
+        super(value, interrupting, PasswordError.UPPERCASE);
     }
 
     @Override

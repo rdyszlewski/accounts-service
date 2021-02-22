@@ -4,63 +4,43 @@ import com.farfocle.accountsservice.password_validator.PasswordData;
 import com.farfocle.accountsservice.password_validator.PasswordError;
 import org.junit.Test;
 
-import static org.assertj.core.api.Assertions.as;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static com.farfocle.accountsservice.password_validator.test_utils.TestUtils.*;
 import static org.junit.Assert.*;
 
 public class MinLengthRuleTest {
 
     @Test
     public void shouldReturnFalseWhenPasswordTooShort()  {
-        MinLengthRule rule = new MinLengthRule(5);
-        PasswordData emptyPassword = new PasswordData("");
-        assertFalse(rule.validate(emptyPassword));
-
-        PasswordData veryShortPassword = new PasswordData("a");
-        assertFalse(rule.validate(veryShortPassword));
-
-        PasswordData almostPassword = new PasswordData("aaaa");
-        assertFalse(rule.validate(almostPassword));
+        Rule rule = new MinLengthRule(5);
+        testPasswordFail("", rule);
+        testPasswordFail("a", rule);
+        testPasswordFail("aaaa", rule);
     }
 
     @Test
     public void shouldReturnTrueWhenPasswordIsCorrect() {
         MinLengthRule rule = new MinLengthRule(5);
-        PasswordData exactlyPassword = new PasswordData("aaaaa");
-        assertTrue(rule.validate(exactlyPassword));
-
-        PasswordData longPassword = new PasswordData("aaaaaaaaaaaaaa");
-        assertTrue(rule.validate(longPassword));
-
-        PasswordData veryLongPassword = new PasswordData("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-        assertTrue(rule.validate(veryLongPassword));
+        testPasswordSuccess("aaaaa", rule);
+        testPasswordSuccess("aaaaaaaaaaaaaa", rule);
+        testPasswordSuccess("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", rule);
     }
 
     @Test
     public void shouldThrowNullPasswordException() {
         MinLengthRule rule = new MinLengthRule(5);
-        PasswordData nullData = null;
-        assertThatThrownBy(()->rule.validate(nullData)).isInstanceOf(NullPointerException.class);
-        // TODO: można tutaj sprawdzić komunikat
+        testException(null, NullPointerException.class, rule);
 
         PasswordData nullPassword = new PasswordData(null);
-        assertThatThrownBy(()->rule.validate(nullPassword)).isInstanceOf(NullPointerException.class);
+        testException(nullPassword, NullPointerException.class, rule);
     }
 
     @Test
     public void shouldReturnTrueWhenNotCharacters(){
         MinLengthRule rule = new MinLengthRule(5);
-        PasswordData onlySpecialPassword = new PasswordData("#$%#$%");
-        assertTrue(rule.validate(onlySpecialPassword));
-
-        PasswordData nationalPassword = new PasswordData("śćśśśść");
-        assertTrue(rule.validate(nationalPassword));
-
-        PasswordData numberPassword = new PasswordData("1123131");
-        assertTrue(rule.validate(numberPassword));
-
-        PasswordData mixPassword = new PasswordData("1#śPo5>");
-        assertTrue(rule.validate(mixPassword));
+        testPasswordSuccess("#$%#$%", rule);
+        testPasswordSuccess("śćśśśść", rule);
+        testPasswordSuccess("1123131", rule);
+        testPasswordSuccess("1#śPo5", rule);
     }
 
     @Test

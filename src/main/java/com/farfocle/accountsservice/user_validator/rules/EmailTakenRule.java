@@ -24,7 +24,7 @@ public class EmailTakenRule implements Rule {
         if (data == null || data.getEmail() == null) {
             throw new NullPointerException();
         }
-        return !existenceValidator.getByEmail(data.getEmail());
+        return !existenceValidator.existsByEmail(data.getEmail());
     }
 
     @Override

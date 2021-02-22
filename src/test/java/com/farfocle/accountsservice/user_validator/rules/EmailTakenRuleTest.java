@@ -18,7 +18,7 @@ public class EmailTakenRuleTest {
     public void shouldReturnFalseWhenEmailExists() {
         Rule rule = new EmailTakenRule(existenceValidator);
         UserData data = new UserData("dadad", "dada");
-        when(existenceValidator.getByEmail(data.getEmail())).thenReturn(true);
+        when(existenceValidator.existsByEmail(data.getEmail())).thenReturn(true);
         assertFalse(rule.validate(data));
     }
 
@@ -26,7 +26,7 @@ public class EmailTakenRuleTest {
     public void shouldReturnTrueWhenEmailNotExists() {
         Rule rule = new EmailTakenRule(existenceValidator);
         UserData data = new UserData("adada", "dada");
-        when(existenceValidator.getByEmail(data.getEmail())).thenReturn(false);
+        when(existenceValidator.existsByEmail(data.getEmail())).thenReturn(false);
         assertTrue(rule.validate(data));
     }
 

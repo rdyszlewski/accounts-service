@@ -4,6 +4,7 @@ import com.farfocle.accountsservice.password_validator.PasswordData;
 import com.farfocle.accountsservice.password_validator.PasswordError;
 import org.junit.Test;
 
+import static com.farfocle.accountsservice.password_validator.test_utils.TestUtils.*;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.*;
 
@@ -14,41 +15,27 @@ public class LowercaseRuleTest {
     @Test
     public void shouldReturnFalseWhenNotEnoughLowercase(){
         Rule rule = new LowercaseRule(2);
-        PasswordData noLowercasePassword = new PasswordData("AAAA");
-        assertFalse(rule.validate(noLowercasePassword));
-
-        PasswordData notEnoughLowercasePassword1 = new PasswordData("AAaAA");
-        assertFalse(rule.validate(notEnoughLowercasePassword1));
-
-        PasswordData notEnoughLowercasePassword2 = new PasswordData("aAAAA");
-        assertFalse(rule.validate(notEnoughLowercasePassword2));
-
-        PasswordData notEnoughLowercasePassword3 = new PasswordData("AAAAa");
-        assertFalse(rule.validate(notEnoughLowercasePassword3));
+        testPasswordFail("AAAA", rule);
+        testPasswordFail("AAaAA", rule);
+        testPasswordFail("aAAAA", rule);
+        testPasswordFail("AAAAa", rule);
     }
 
     @Test
     public void shouldReturnTrueWhenEnoughLowercase(){
         Rule rule = new LowercaseRule(2);
-        PasswordData manyLowercasePassword = new PasswordData("AaaAaa");
-        assertTrue(rule.validate(manyLowercasePassword));
-
-        PasswordData onlyLowercasePassword = new PasswordData("aaaaaa");
-        assertTrue(rule.validate(onlyLowercasePassword));
-
-        PasswordData exactlyLowercasePassword = new PasswordData("AaAaA");
-        assertTrue(rule.validate(exactlyLowercasePassword));
+        testPasswordSuccess("AaaAaa", rule);
+        testPasswordSuccess("aaaaaa", rule);
+        testPasswordSuccess("AaAaA", rule);
     }
 
     @Test
     public void shouldThrowNullPasswordException() {
         Rule rule = new LowercaseRule(2);
-        PasswordData nullData = null;
-        assertThatThrownBy(()->rule.validate(nullData)).isInstanceOf(NullPointerException.class);
-        // TODO: można tutaj sprawdzić komunikat
+        testException(null, NullPointerException.class, rule);
 
         PasswordData nullPassword = new PasswordData(null);
-        assertThatThrownBy(()->rule.validate(nullPassword)).isInstanceOf(NullPointerException.class);
+        testException(nullPassword, NullPointerException.class, rule);
     }
 
     @Test

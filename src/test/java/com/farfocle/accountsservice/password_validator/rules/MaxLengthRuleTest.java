@@ -5,6 +5,7 @@ import com.farfocle.accountsservice.password_validator.PasswordError;
 import org.junit.Assert;
 import org.junit.Test;
 
+import static com.farfocle.accountsservice.password_validator.test_utils.TestUtils.*;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.*;
 
@@ -12,53 +13,35 @@ public class MaxLengthRuleTest {
 
     @Test
     public void shouldReturnFalseWhenPasswordTooLong(){
-        MaxLengthRule rule = new MaxLengthRule(5);
-        PasswordData veryLongPassword = new PasswordData("aadadadaasfsdfsdjkflasdflasdjksfasfs");
-        assertFalse(rule.validate(veryLongPassword));
-
-        PasswordData almostPassword = new PasswordData("aaaaaa");
-        assertFalse(rule.validate(almostPassword));
-
+        Rule rule = new MaxLengthRule(5);
+        testPasswordFail("aadadadaasfsdfsdjkflasdflasdjksfasfs", rule);
+        testPasswordFail("aaaaaa", rule);
     }
 
     @Test
     public void shouldReturnTrueWhenPasswordCorrect(){
         MaxLengthRule rule = new MaxLengthRule(5);
-        PasswordData emptyPassword = new PasswordData("");
-        assertTrue(rule.validate(emptyPassword));
-
-        PasswordData shortPassword = new PasswordData("aaa");
-        assertTrue(rule.validate(shortPassword));
-
-        PasswordData exactlyPassword = new PasswordData("aaaaa");
-        assertTrue(rule.validate(exactlyPassword));
+        testPasswordSuccess("", rule);
+        testPasswordSuccess("aaa", rule);
+        testPasswordSuccess("aaaaa", rule);
     }
 
     @Test
     public void shouldThrowExceptionWhenPasswordIsNull(){
         MaxLengthRule rule = new MaxLengthRule(5);
-        PasswordData nullData = null;
-        assertThatThrownBy(()->rule.validate(nullData)).isInstanceOf(NullPointerException.class);
-        // TODO: można tutaj sprawdzić komunikat
+        testException(null, NullPointerException.class, rule);
 
         PasswordData nullPassword = new PasswordData(null);
-        assertThatThrownBy(()->rule.validate(nullPassword)).isInstanceOf(NullPointerException.class);
+        testException(nullPassword, NullPointerException.class, rule);
     }
 
     @Test
     public void shouldReturnTrueWhenNotCharacters(){
         MaxLengthRule rule = new MaxLengthRule(8);
-        PasswordData onlySpecialPassword = new PasswordData("#$%#$%");
-        assertTrue(rule.validate(onlySpecialPassword));
-
-        PasswordData nationalPassword = new PasswordData("śćśśśść");
-        assertTrue(rule.validate(nationalPassword));
-
-        PasswordData numberPassword = new PasswordData("1123131");
-        assertTrue(rule.validate(numberPassword));
-
-        PasswordData mixPassword = new PasswordData("1#śPo5>");
-        assertTrue(rule.validate(mixPassword));
+        testPasswordSuccess("#$%#$%", rule);
+        testPasswordSuccess("śćśśśść", rule);
+        testPasswordSuccess("1123131", rule);
+        testPasswordSuccess("1#śPo5>", rule);
     }
 
     @Test

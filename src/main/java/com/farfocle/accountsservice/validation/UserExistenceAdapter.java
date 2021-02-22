@@ -21,7 +21,7 @@ public class UserExistenceAdapter implements UserExistence {
     }
 
     @Override
-    public boolean getByEmail(String email) {
+    public boolean existsByEmail(String email) {
         return repository.existsByEmail(email);
     }
 }

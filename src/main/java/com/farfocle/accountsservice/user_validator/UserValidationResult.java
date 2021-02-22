@@ -24,7 +24,7 @@ public final class UserValidationResult {
         return errors.size();
     }
 
-    public List<UserValidationError> getErrors(){
+    public List<UserValidationError> getErrors() {
         return this.errors;
     }
 

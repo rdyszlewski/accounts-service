@@ -9,7 +9,7 @@ public class SignUpData {
     private String password;
     // TODO: jakoś dodać tutaj role
 
-    public SignUpData(){
+    public SignUpData() {
 
     }
 

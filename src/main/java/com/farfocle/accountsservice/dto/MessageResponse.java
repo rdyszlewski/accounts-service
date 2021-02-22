@@ -4,7 +4,7 @@ public class MessageResponse {
 
     private String message;
 
-    public  MessageResponse(){
+    public MessageResponse() {
 
     }
 

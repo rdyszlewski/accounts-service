@@ -7,7 +7,7 @@ import com.farfocle.accountsservice.password_validator.PasswordError;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class WhitespaceRule implements Rule{
+public class WhitespaceRule implements Rule {
 
     private ErrorDetails errorDetails;
     private final String PATTERN = "(\\s)";
@@ -15,23 +15,23 @@ public class WhitespaceRule implements Rule{
     private boolean interrupting;
 
 
-    public WhitespaceRule(){
+    public WhitespaceRule() {
         init();
     }
 
-    public WhitespaceRule(boolean interrupting){
+    public WhitespaceRule(boolean interrupting) {
         init();
         this.interrupting = interrupting;
     }
 
-    private void init(){
-        errorDetails = new ErrorDetails(PasswordError.WHITESPACE,null);
+    private void init() {
+        errorDetails = new ErrorDetails(PasswordError.WHITESPACE, null);
         pattern = Pattern.compile(PATTERN);
     }
 
     @Override
     public boolean validate(PasswordData password) throws NullPointerException {
-        if(password == null || password.getPassword() == null){
+        if (password == null || password.getPassword() == null) {
             throw new NullPointerException();
         }
         Matcher matcher = pattern.matcher(password.getPassword());

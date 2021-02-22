@@ -1,6 +1,5 @@
 package com.farfocle.accountsservice.controllers;
 
-import com.farfocle.accountsservice.validation.SignUpError;
 import com.farfocle.accountsservice.validation.SignUpErrorDetails;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class TestController {
 
     @GetMapping("hello")
-    public SignUpErrorDetails helloWorld(){
+    public SignUpErrorDetails helloWorld() {
         return null;
     }
 }

@@ -15,7 +15,7 @@ public class ValidationResult {
         this.valid = valid;
     }
 
-    public void addError(ErrorDetails errorDetails){
+    public void addError(ErrorDetails errorDetails) {
         this.errors.add(errorDetails);
     }
 

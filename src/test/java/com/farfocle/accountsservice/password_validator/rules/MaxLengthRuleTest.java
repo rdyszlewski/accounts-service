@@ -2,24 +2,22 @@ package com.farfocle.accountsservice.password_validator.rules;
 
 import com.farfocle.accountsservice.password_validator.PasswordData;
 import com.farfocle.accountsservice.password_validator.PasswordError;
-import org.junit.Assert;
 import org.junit.Test;
 
 import static com.farfocle.accountsservice.password_validator.test_utils.TestUtils.*;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class MaxLengthRuleTest {
 
     @Test
-    public void shouldReturnFalseWhenPasswordTooLong(){
+    public void shouldReturnFalseWhenPasswordTooLong() {
         Rule rule = new MaxLengthRule(5);
         testPasswordFail("aadadadaasfsdfsdjkflasdflasdjksfasfs", rule);
         testPasswordFail("aaaaaa", rule);
     }
 
     @Test
-    public void shouldReturnTrueWhenPasswordCorrect(){
+    public void shouldReturnTrueWhenPasswordCorrect() {
         MaxLengthRule rule = new MaxLengthRule(5);
         testPasswordSuccess("", rule);
         testPasswordSuccess("aaa", rule);
@@ -27,7 +25,7 @@ public class MaxLengthRuleTest {
     }
 
     @Test
-    public void shouldThrowExceptionWhenPasswordIsNull(){
+    public void shouldThrowExceptionWhenPasswordIsNull() {
         MaxLengthRule rule = new MaxLengthRule(5);
         testException(null, NullPointerException.class, rule);
 
@@ -36,7 +34,7 @@ public class MaxLengthRuleTest {
     }
 
     @Test
-    public void shouldReturnTrueWhenNotCharacters(){
+    public void shouldReturnTrueWhenNotCharacters() {
         MaxLengthRule rule = new MaxLengthRule(8);
         testPasswordSuccess("#$%#$%", rule);
         testPasswordSuccess("śćśśśść", rule);
@@ -45,7 +43,7 @@ public class MaxLengthRuleTest {
     }
 
     @Test
-    public void shouldReturnCorrectErrorDetails(){
+    public void shouldReturnCorrectErrorDetails() {
         Rule rule = new MaxLengthRule(8);
         assertEquals(PasswordError.TOO_LONG, rule.getErrorDetails().getError());
         assertEquals("8", rule.getErrorDetails().getValidValue());

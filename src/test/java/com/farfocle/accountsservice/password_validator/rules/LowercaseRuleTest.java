@@ -5,15 +5,14 @@ import com.farfocle.accountsservice.password_validator.PasswordError;
 import org.junit.Test;
 
 import static com.farfocle.accountsservice.password_validator.test_utils.TestUtils.*;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class LowercaseRuleTest {
 
     // TODO: dodać testy z przyjmowanymi znakami
 
     @Test
-    public void shouldReturnFalseWhenNotEnoughLowercase(){
+    public void shouldReturnFalseWhenNotEnoughLowercase() {
         Rule rule = new LowercaseRule(2);
         testPasswordFail("AAAA", rule);
         testPasswordFail("AAaAA", rule);
@@ -22,7 +21,7 @@ public class LowercaseRuleTest {
     }
 
     @Test
-    public void shouldReturnTrueWhenEnoughLowercase(){
+    public void shouldReturnTrueWhenEnoughLowercase() {
         Rule rule = new LowercaseRule(2);
         testPasswordSuccess("AaaAaa", rule);
         testPasswordSuccess("aaaaaa", rule);
@@ -39,7 +38,7 @@ public class LowercaseRuleTest {
     }
 
     @Test
-    public void shouldReturnCorrectErrorDetails(){
+    public void shouldReturnCorrectErrorDetails() {
         Rule rule = new LowercaseRule(2);
         assertEquals(PasswordError.LOWERCASE, rule.getErrorDetails().getError());
         assertEquals("2", rule.getErrorDetails().getValidValue());

@@ -12,13 +12,13 @@ import static org.mockito.Mockito.when;
 
 public class PasswordValidatorTest {
 
-    private MinLengthRule minLengthRule = Mockito.mock(MinLengthRule.class);
-    private MaxLengthRule maxLengthRule = Mockito.mock(MaxLengthRule.class);
-    private UppercaseRule uppercaseRule = Mockito.mock(UppercaseRule.class);
-    private DigitsRule digitsRule = Mockito.mock(DigitsRule.class);
+    private final MinLengthRule minLengthRule = Mockito.mock(MinLengthRule.class);
+    private final MaxLengthRule maxLengthRule = Mockito.mock(MaxLengthRule.class);
+    private final UppercaseRule uppercaseRule = Mockito.mock(UppercaseRule.class);
+    private final DigitsRule digitsRule = Mockito.mock(DigitsRule.class);
 
     @Test
-    public void shouldReturnValidationSuccess(){
+    public void shouldReturnValidationSuccess() {
         PasswordData passwordData = new PasswordData("Sho4hsauin");
         setupRule(minLengthRule, true, false, getTooShortError(), passwordData);
         setupRule(maxLengthRule, true, false, getTooLongError(), passwordData);
@@ -31,7 +31,7 @@ public class PasswordValidatorTest {
     }
 
     @Test
-    public void shouldReturnInvalid(){
+    public void shouldReturnInvalid() {
         PasswordData passwordData = new PasswordData("Sho4hsauin");
         setupRule(minLengthRule, true, false, getTooShortError(), passwordData);
         setupRule(maxLengthRule, false, false, getTooLongError(), passwordData);
@@ -46,7 +46,7 @@ public class PasswordValidatorTest {
     }
 
     @Test
-    public void shouldInterrupt(){
+    public void shouldInterrupt() {
         PasswordData passwordData = new PasswordData("Sho4hsauin");
         setupRule(minLengthRule, true, false, getTooShortError(), passwordData);
         setupRule(maxLengthRule, false, true, getTooLongError(), passwordData);
@@ -60,12 +60,12 @@ public class PasswordValidatorTest {
     }
 
     @Test
-    public void shouldNotInterruptWhenValid(){
+    public void shouldNotInterruptWhenValid() {
         PasswordData passwordData = new PasswordData("Sho4hsauin");
-        setupRule(minLengthRule, true,  true, getTooShortError(), passwordData);
-        setupRule(maxLengthRule, true,  true, getTooLongError(), passwordData);
+        setupRule(minLengthRule, true, true, getTooShortError(), passwordData);
+        setupRule(maxLengthRule, true, true, getTooLongError(), passwordData);
         setupRule(uppercaseRule, true, true, getUppercaseError(), passwordData);
-        setupRule(digitsRule, true,  true, getDigitsError(), passwordData);
+        setupRule(digitsRule, true, true, getDigitsError(), passwordData);
 
         ValidationResult result = prepareValidatorAndValidate(passwordData);
         assertTrue(result.isValid());
@@ -86,25 +86,25 @@ public class PasswordValidatorTest {
         return result;
     }
 
-    private void setupRule(Rule rule, boolean valid,  boolean interrupting, ErrorDetails errorDetails, PasswordData passwordData){
+    private void setupRule(Rule rule, boolean valid, boolean interrupting, ErrorDetails errorDetails, PasswordData passwordData) {
         when(rule.validate(passwordData)).thenReturn(valid);
         when(rule.getErrorDetails()).thenReturn(errorDetails);
         when(rule.isInterrupting()).thenReturn(interrupting);
     }
 
-    private ErrorDetails getTooShortError(){
+    private ErrorDetails getTooShortError() {
         return new ErrorDetails(PasswordError.TOO_SHORT, "1");
     }
 
-    private ErrorDetails getTooLongError(){
+    private ErrorDetails getTooLongError() {
         return new ErrorDetails(PasswordError.TOO_LONG, "1");
     }
 
-    private ErrorDetails getUppercaseError(){
+    private ErrorDetails getUppercaseError() {
         return new ErrorDetails(PasswordError.UPPERCASE, "1");
     }
 
-    private ErrorDetails getDigitsError(){
+    private ErrorDetails getDigitsError() {
         return new ErrorDetails(PasswordError.DIGITS, "1");
     }
 }

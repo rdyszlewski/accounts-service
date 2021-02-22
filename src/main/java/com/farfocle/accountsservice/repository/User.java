@@ -7,7 +7,7 @@ import javax.persistence.*;
 public class User {
 
     @Id
-    @GeneratedValue(strategy =  GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(unique = true, nullable = false)
@@ -19,11 +19,11 @@ public class User {
     @Column(unique = true, nullable = false)
     private String email;
 
-    public User(){
+    public User() {
 
     }
 
-    public User(String username, String email, String password){
+    public User(String username, String email, String password) {
         this.username = username;
         this.email = email;
         this.password = password;

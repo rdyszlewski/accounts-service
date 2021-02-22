@@ -1,17 +1,17 @@
 package com.farfocle.accountsservice.validation;
 
-import com.farfocle.accountsservice.user_validator.UserExistence;
 import com.farfocle.accountsservice.repository.AccountsRepository;
+import com.farfocle.accountsservice.user_validator.UserExistence;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class UserExistenceAdapter implements UserExistence {
 
-    private AccountsRepository repository;
+    private final AccountsRepository repository;
 
     @Autowired
-    public UserExistenceAdapter(AccountsRepository repository){
+    public UserExistenceAdapter(AccountsRepository repository) {
         this.repository = repository;
     }
 

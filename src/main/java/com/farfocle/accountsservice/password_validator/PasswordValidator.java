@@ -6,18 +6,18 @@ import java.util.List;
 
 public class PasswordValidator {
 
-    private List<Rule> rules;
+    private final List<Rule> rules;
 
-    public PasswordValidator(List<Rule> rules){
+    public PasswordValidator(List<Rule> rules) {
         this.rules = rules;
     }
 
     public ValidationResult validate(PasswordData password) {
         ValidationResult result = new ValidationResult();
-        for (Rule rule : rules){
-            if(!rule.validate(password)){
+        for (Rule rule : rules) {
+            if (!rule.validate(password)) {
                 result.addError(rule.getErrorDetails());
-                if(rule.isInterrupting()){
+                if (rule.isInterrupting()) {
                     break;
                 }
             }

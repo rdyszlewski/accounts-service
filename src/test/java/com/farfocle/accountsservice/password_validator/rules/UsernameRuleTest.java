@@ -9,7 +9,7 @@ import static org.junit.Assert.*;
 public class UsernameRuleTest {
 
     @Test
-    public void shouldReturnFalseWhenUsernameAndPasswordAreTheSame(){
+    public void shouldReturnFalseWhenUsernameAndPasswordAreTheSame() {
         Rule rule = new UsernameRule();
         PasswordData passwordData = new PasswordData("Antek");
         passwordData.setUsername("Antek");
@@ -17,7 +17,7 @@ public class UsernameRuleTest {
     }
 
     @Test
-    public void shouldReturnFalseWhenUsernameAndPasswordAreDifferent(){
+    public void shouldReturnFalseWhenUsernameAndPasswordAreDifferent() {
         Rule rule = new UsernameRule();
         PasswordData passwordData = new PasswordData("Antek");
         passwordData.setUsername("Kaziu");
@@ -26,7 +26,7 @@ public class UsernameRuleTest {
 
     // TODO: zrobić test, który testuje wyrzucenie błędu, jeżeli username nie jest podany
     @Test
-    public void shouldReturnCorrectErrorDetails(){
+    public void shouldReturnCorrectErrorDetails() {
         Rule rule = new UsernameRule();
         assertEquals(PasswordError.USERNAME, rule.getErrorDetails().getError());
         assertNull(rule.getErrorDetails().getValidValue());

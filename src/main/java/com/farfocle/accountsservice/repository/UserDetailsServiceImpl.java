@@ -13,13 +13,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     private final AccountsRepository accountsRepository;
 
     @Autowired
-    public UserDetailsServiceImpl(AccountsRepository accountsRepository){
+    public UserDetailsServiceImpl(AccountsRepository accountsRepository) {
         this.accountsRepository = accountsRepository;
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = accountsRepository.findByUsername(username).orElseThrow(()->new UsernameNotFoundException("User Not Found with username: " + username));
+        User user = accountsRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + username));
         return UserDetailsImpl.build(user);
     }
 }

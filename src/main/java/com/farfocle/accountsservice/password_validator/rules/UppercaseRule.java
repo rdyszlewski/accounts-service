@@ -1,15 +1,14 @@
 package com.farfocle.accountsservice.password_validator.rules;
 
-import com.farfocle.accountsservice.password_validator.ErrorDetails;
 import com.farfocle.accountsservice.password_validator.PasswordError;
 
 public class UppercaseRule extends CharactersRule {
 
-    public UppercaseRule(int value){
+    public UppercaseRule(int value) {
         super(value, PasswordError.UPPERCASE);
     }
 
-    public UppercaseRule(int value, boolean interrupting){
+    public UppercaseRule(int value, boolean interrupting) {
         super(value, interrupting, PasswordError.UPPERCASE);
     }
 

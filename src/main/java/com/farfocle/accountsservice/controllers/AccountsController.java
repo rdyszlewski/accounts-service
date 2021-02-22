@@ -4,10 +4,9 @@ import com.farfocle.accountsservice.authorization.JwtUtils;
 import com.farfocle.accountsservice.authorization.UserDetailsImpl;
 import com.farfocle.accountsservice.dto.LoginRequest;
 import com.farfocle.accountsservice.dto.LoginResponse;
-import com.farfocle.accountsservice.dto.MessageResponse;
 import com.farfocle.accountsservice.dto.SignUpData;
-import com.farfocle.accountsservice.repository.User;
 import com.farfocle.accountsservice.repository.AccountsRepository;
+import com.farfocle.accountsservice.repository.User;
 import com.farfocle.accountsservice.validation.SignUpValidationResult;
 import com.farfocle.accountsservice.validation.SignUpValidationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,14 +29,14 @@ import java.util.stream.Collectors;
 @RequestMapping(produces = "application/json")
 public class AccountsController {
 
-    private AccountsRepository userRepository;
-    private BCryptPasswordEncoder passwordEncoder;
-    private AuthenticationManager authenticationManager;
-    private JwtUtils jwtUtils;
-    private SignUpValidationService validationService;
+    private final AccountsRepository userRepository;
+    private final BCryptPasswordEncoder passwordEncoder;
+    private final AuthenticationManager authenticationManager;
+    private final JwtUtils jwtUtils;
+    private final SignUpValidationService validationService;
 
     @Autowired
-    public AccountsController(AccountsRepository userRepository, BCryptPasswordEncoder encoder, AuthenticationManager authenticationManager, JwtUtils jwtUtils, SignUpValidationService service){
+    public AccountsController(AccountsRepository userRepository, BCryptPasswordEncoder encoder, AuthenticationManager authenticationManager, JwtUtils jwtUtils, SignUpValidationService service) {
         this.userRepository = userRepository;
         this.passwordEncoder = encoder;
         this.authenticationManager = authenticationManager;
@@ -46,9 +45,9 @@ public class AccountsController {
     }
 
     @PostMapping(path = "/sign-up")
-    public SignUpValidationResult registerUser(@RequestBody SignUpData signupData){
+    public SignUpValidationResult registerUser(@RequestBody SignUpData signupData) {
         SignUpValidationResult validationResult = validationService.validate(signupData);
-        if(validationResult.isSuccess()){
+        if (validationResult.isSuccess()) {
             User user = new User(signupData.getUsername(), signupData.getEmail(), passwordEncoder.encode(signupData.getPassword()));
             userRepository.save(user);
         }
@@ -66,12 +65,12 @@ public class AccountsController {
     }
 
     @PostMapping(path = "sign-in")
-    public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest){
+    public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtUtils.generateJwtToken(authentication);
 
-        UserDetailsImpl userDetails = (UserDetailsImpl)authentication.getPrincipal();
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         List<String> roles = userDetails.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());

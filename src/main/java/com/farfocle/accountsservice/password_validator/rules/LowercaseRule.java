@@ -2,7 +2,7 @@ package com.farfocle.accountsservice.password_validator.rules;
 
 import com.farfocle.accountsservice.password_validator.PasswordError;
 
-public class LowercaseRule extends CharactersRule{
+public class LowercaseRule extends CharactersRule {
 
     public LowercaseRule(int value) {
         super(value, PasswordError.LOWERCASE);

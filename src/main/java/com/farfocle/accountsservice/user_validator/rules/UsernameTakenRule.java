@@ -1,8 +1,8 @@
 package com.farfocle.accountsservice.user_validator.rules;
 
 import com.farfocle.accountsservice.user_validator.UserData;
-import com.farfocle.accountsservice.user_validator.UserValidationError;
 import com.farfocle.accountsservice.user_validator.UserExistence;
+import com.farfocle.accountsservice.user_validator.UserValidationError;
 
 public class UsernameTakenRule implements Rule {
 

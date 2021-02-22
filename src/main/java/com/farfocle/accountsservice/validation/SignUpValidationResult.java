@@ -7,7 +7,7 @@ public class SignUpValidationResult {
 
     private final List<SignUpErrorDetails> errors = new LinkedList<>();
 
-    public boolean isSuccess(){
+    public boolean isSuccess() {
         return errors.isEmpty();
     }
 
@@ -15,8 +15,8 @@ public class SignUpValidationResult {
         return errors;
     }
 
-    public void addError(SignUpErrorDetails error){
-        if(error != null){
+    public void addError(SignUpErrorDetails error) {
+        if (error != null) {
             this.errors.add(error);
         }
     }

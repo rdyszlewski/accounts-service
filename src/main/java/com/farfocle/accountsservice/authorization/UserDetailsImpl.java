@@ -14,14 +14,14 @@ public class UserDetailsImpl implements UserDetails {
 
     private static final long serialVersionUID = 1L;
 
-    private Long id;
-    private String username;
-    private String email;
+    private final Long id;
+    private final String username;
+    private final String email;
     @JsonIgnore
-    private String password;
-    private Collection<? extends GrantedAuthority> authorities;
+    private final String password;
+    private final Collection<? extends GrantedAuthority> authorities;
 
-    public UserDetailsImpl(Long id, String username, String email, String password, Collection<? extends GrantedAuthority> authorities){
+    public UserDetailsImpl(Long id, String username, String email, String password, Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -29,7 +29,7 @@ public class UserDetailsImpl implements UserDetails {
         this.authorities = authorities;
     }
 
-    public static UserDetailsImpl build(User user){
+    public static UserDetailsImpl build(User user) {
         // TODO: po wstawieniu ról zmienić to
         List<GrantedAuthority> authorities = new ArrayList<>();
 
@@ -47,11 +47,11 @@ public class UserDetailsImpl implements UserDetails {
         return authorities;
     }
 
-    public Long getId(){
+    public Long getId() {
         return id;
     }
 
-    public String getEmail(){
+    public String getEmail() {
         return email;
     }
 

@@ -1,7 +1,10 @@
 package com.farfocle.accountsservice.validation;
 
 import com.farfocle.accountsservice.dto.SignUpData;
-import com.farfocle.accountsservice.password_validator.*;
+import com.farfocle.accountsservice.password_validator.ErrorDetails;
+import com.farfocle.accountsservice.password_validator.PasswordData;
+import com.farfocle.accountsservice.password_validator.PasswordValidator;
+import com.farfocle.accountsservice.password_validator.ValidationResult;
 import com.farfocle.accountsservice.user_validator.UserData;
 import com.farfocle.accountsservice.user_validator.UserValidationError;
 import com.farfocle.accountsservice.user_validator.UserValidationResult;
@@ -10,7 +13,6 @@ import com.sun.istack.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,18 +24,18 @@ public class SignUpValidationService {
     private final SignUpMessageCreator messageCreator;
 
     @Autowired
-    public SignUpValidationService(@NotNull final PasswordValidator passwordValidator, @NotNull final UserValidator userValidator, @NotNull final SignUpMessageCreator messageCreator){
+    public SignUpValidationService(@NotNull final PasswordValidator passwordValidator, @NotNull final UserValidator userValidator, @NotNull final SignUpMessageCreator messageCreator) {
         this.passwordValidator = passwordValidator;
         this.userValidator = userValidator;
         this.messageCreator = messageCreator;
     }
 
-    public SignUpValidationResult validate(SignUpData data){
+    public SignUpValidationResult validate(SignUpData data) {
         SignUpValidationResult result = new SignUpValidationResult();
         UserData userData = new UserData(data.getUsername(), data.getEmail());
         UserValidationResult userValidationResult = userValidator.validate(userData);
         getErrorsDetailsFromUserValidation(userValidationResult).forEach(result::addError);
-        if(userValidationResult.isValid()){
+        if (userValidationResult.isValid()) {
             PasswordData passwordData = new PasswordData(data.getPassword(), data.getUsername());
             ValidationResult passwordValidationResult = passwordValidator.validate(passwordData);
             getErrorsFromPasswordValidation(passwordValidationResult).forEach(result::addError);
@@ -41,16 +43,16 @@ public class SignUpValidationService {
         return result;
     }
 
-    private List<SignUpErrorDetails> getErrorsDetailsFromUserValidation(UserValidationResult validationResult){
+    private List<SignUpErrorDetails> getErrorsDetailsFromUserValidation(UserValidationResult validationResult) {
         return validationResult.getErrors().stream().map(this::getErrorDetails).collect(Collectors.toList());
     }
 
-    private SignUpErrorDetails getErrorDetails(UserValidationError error){
+    private SignUpErrorDetails getErrorDetails(UserValidationError error) {
         // TODO: przemyśleć, jak to powinno być robione poprawnie
         // TODO: trzeba jakoś dodać odpowiednie komunikaty i pobrać wymagane dane, jeżeli będzie to potrzebne
-        switch (error){
+        switch (error) {
             case USERNAME_TOO_SHORT:
-                return new SignUpErrorDetails(SignUpError.USERNAME_TOO_SHORT,null,null);
+                return new SignUpErrorDetails(SignUpError.USERNAME_TOO_SHORT, null, null);
             case USERNAME_TOO_LONG:
                 return new SignUpErrorDetails(SignUpError.USERNAME_TOO_LONG, null, null);
             case USERNAME_TAKEN:
@@ -65,13 +67,12 @@ public class SignUpValidationService {
     }
 
 
-
-    private List<SignUpErrorDetails> getErrorsFromPasswordValidation(ValidationResult validationResult){
+    private List<SignUpErrorDetails> getErrorsFromPasswordValidation(ValidationResult validationResult) {
         return validationResult.getErrors().stream().map(this::createErrorDetails).collect(Collectors.toList());
     }
 
-    private SignUpErrorDetails createErrorDetails(ErrorDetails errorDetails){
-        switch (errorDetails.getError()){
+    private SignUpErrorDetails createErrorDetails(ErrorDetails errorDetails) {
+        switch (errorDetails.getError()) {
             case TOO_SHORT:
                 return new SignUpErrorDetails(SignUpError.PASS_TOO_SHORT, errorDetails.getValidValue(), null);
             case TOO_LONG:
@@ -79,7 +80,7 @@ public class SignUpValidationService {
             case LOWERCASE:
                 return new SignUpErrorDetails(SignUpError.PASS_NO_LOWERCASE, errorDetails.getValidValue(), null);
             case UPPERCASE:
-                return new SignUpErrorDetails(SignUpError.PASS_NO_UPPERCASE, errorDetails.getValidValue(), null );
+                return new SignUpErrorDetails(SignUpError.PASS_NO_UPPERCASE, errorDetails.getValidValue(), null);
             case DIGITS:
                 return new SignUpErrorDetails(SignUpError.PASS_NO_DIGITS, errorDetails.getValidValue(), null);
             case SPECIAL_CHARACTERS:

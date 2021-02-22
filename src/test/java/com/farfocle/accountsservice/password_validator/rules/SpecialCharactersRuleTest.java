@@ -8,13 +8,12 @@ import java.util.Arrays;
 import java.util.List;
 
 import static com.farfocle.accountsservice.password_validator.test_utils.TestUtils.*;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class SpecialCharactersRuleTest {
 
     @Test
-    public void shouldReturnFalseWhenNotEnoughSpecialCharacters(){
+    public void shouldReturnFalseWhenNotEnoughSpecialCharacters() {
         Rule rule = new SpecialCharactersRule(2);
         testPasswordFail("aaaa", rule);
         testPasswordFail("aa}aa", rule);
@@ -23,7 +22,7 @@ public class SpecialCharactersRuleTest {
     }
 
     @Test
-    public void shouldReturnTrueWhenEnoughSpecialCharacters(){
+    public void shouldReturnTrueWhenEnoughSpecialCharacters() {
         Rule rule = new SpecialCharactersRule(2);
         testPasswordSuccess("//ddd#)(", rule);
         testPasswordSuccess("#_.,()", rule);
@@ -40,8 +39,8 @@ public class SpecialCharactersRuleTest {
     }
 
     @Test
-    public void shouldReturnTrueWhenGetSpecialsFromList(){
-        List<Character> list1 = Arrays.asList('#','/','_');
+    public void shouldReturnTrueWhenGetSpecialsFromList() {
+        List<Character> list1 = Arrays.asList('#', '/', '_');
         Rule rule = new SpecialCharactersRule(2, list1);
 
         testPasswordSuccess("das#das_", rule);
@@ -49,7 +48,7 @@ public class SpecialCharactersRuleTest {
     }
 
     @Test
-    public void shouldReturnCorrectErrorDetails(){
+    public void shouldReturnCorrectErrorDetails() {
         Rule rule = new SpecialCharactersRule(2);
         assertEquals(PasswordError.SPECIAL_CHARACTERS, rule.getErrorDetails().getError());
         assertEquals("2", rule.getErrorDetails().getValidValue());

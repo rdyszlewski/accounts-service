@@ -5,12 +5,12 @@ import com.farfocle.accountsservice.password_validator.PasswordError;
 import org.junit.Test;
 
 import static com.farfocle.accountsservice.password_validator.test_utils.TestUtils.*;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class MinLengthRuleTest {
 
     @Test
-    public void shouldReturnFalseWhenPasswordTooShort()  {
+    public void shouldReturnFalseWhenPasswordTooShort() {
         Rule rule = new MinLengthRule(5);
         testPasswordFail("", rule);
         testPasswordFail("a", rule);
@@ -35,7 +35,7 @@ public class MinLengthRuleTest {
     }
 
     @Test
-    public void shouldReturnTrueWhenNotCharacters(){
+    public void shouldReturnTrueWhenNotCharacters() {
         MinLengthRule rule = new MinLengthRule(5);
         testPasswordSuccess("#$%#$%", rule);
         testPasswordSuccess("śćśśśść", rule);
@@ -44,7 +44,7 @@ public class MinLengthRuleTest {
     }
 
     @Test
-    public void shouldReturnCorrectErrorDetails(){
+    public void shouldReturnCorrectErrorDetails() {
         Rule rule = new MinLengthRule(5);
         assertEquals(PasswordError.TOO_SHORT, rule.getErrorDetails().getError());
         assertEquals("5", rule.getErrorDetails().getValidValue());

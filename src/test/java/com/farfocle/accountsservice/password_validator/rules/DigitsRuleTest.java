@@ -5,12 +5,11 @@ import com.farfocle.accountsservice.password_validator.PasswordError;
 import org.junit.Test;
 
 import static com.farfocle.accountsservice.password_validator.test_utils.TestUtils.*;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class DigitsRuleTest {
     @Test
-    public void shouldReturnFalseWhenNotEnoughDigits(){
+    public void shouldReturnFalseWhenNotEnoughDigits() {
         Rule rule = new DigitsRule(2);
         testPasswordFail("aaaa", rule);
         testPasswordFail("aa4aa", rule);
@@ -20,7 +19,7 @@ public class DigitsRuleTest {
     }
 
     @Test
-    public void shouldReturnTrueWhenEnoughDigits(){
+    public void shouldReturnTrueWhenEnoughDigits() {
         Rule rule = new DigitsRule(2);
         testPasswordSuccess("13ddd543", rule);
         testPasswordSuccess("3948392", rule);
@@ -37,7 +36,7 @@ public class DigitsRuleTest {
     }
 
     @Test
-    public void shouldReturnDigitError(){
+    public void shouldReturnDigitError() {
         Rule rule = new DigitsRule(2);
         assertEquals(PasswordError.DIGITS, rule.getErrorDetails().getError());
         assertEquals("2", rule.getErrorDetails().getValidValue());

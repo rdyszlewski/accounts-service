@@ -4,24 +4,24 @@ import com.farfocle.accountsservice.register_data_validator.RegisterData;
 import com.farfocle.accountsservice.register_data_validator.RegisterError;
 import com.farfocle.accountsservice.register_data_validator.UserExistence;
 
-public class UsernameTakenRule implements Rule{
+public class UsernameTakenRule implements Rule {
 
-    private UserExistence existenceValidator;
-    private boolean interrupting;
+    private final UserExistence existenceValidator;
+    private final boolean interrupting;
 
-    public UsernameTakenRule(UserExistence existenceValidator){
+    public UsernameTakenRule(UserExistence existenceValidator) {
         this.existenceValidator = existenceValidator;
         this.interrupting = false;
     }
 
-    public UsernameTakenRule(UserExistence existenceValidator, boolean interrupting){
+    public UsernameTakenRule(UserExistence existenceValidator, boolean interrupting) {
         this.existenceValidator = existenceValidator;
         this.interrupting = interrupting;
     }
 
     @Override
     public boolean validate(RegisterData data) {
-        if(data == null || data.getUsername() == null){
+        if (data == null || data.getUsername() == null) {
             throw new NullPointerException();
         }
         return !existenceValidator.existsByUsername(data.getUsername());

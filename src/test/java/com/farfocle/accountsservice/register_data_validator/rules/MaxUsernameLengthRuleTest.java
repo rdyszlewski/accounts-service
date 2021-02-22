@@ -9,21 +9,21 @@ import static com.farfocle.accountsservice.register_data_validator.test_utils.Ex
 public class MaxUsernameLengthRuleTest {
 
     @Test
-    public void shouldReturnFalseWhenUsernameIsTooLong(){
+    public void shouldReturnFalseWhenUsernameIsTooLong() {
         Rule rule = new MaxUsernameLengthRule(5);
         testUsernameFail("aaaaaaaaaaa", rule);
         testUsernameFail("aaaaaa", rule);
     }
 
     @Test
-    public void shouldReturnTrueWhenUsernameIsNotTooLong(){
+    public void shouldReturnTrueWhenUsernameIsNotTooLong() {
         Rule rule = new MaxUsernameLengthRule(5);
-        testUsernameSuccess("a", rule);;
+        testUsernameSuccess("a", rule);
         testUsernameSuccess("aaaaa", rule);
     }
 
     @Test
-    public void shouldThrowException(){
+    public void shouldThrowException() {
         Rule rule = new MaxUsernameLengthRule(5);
         testException(null, NullPointerException.class, rule);
 

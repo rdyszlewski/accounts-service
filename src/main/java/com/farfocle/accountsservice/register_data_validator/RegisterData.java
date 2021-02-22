@@ -2,8 +2,8 @@ package com.farfocle.accountsservice.register_data_validator;
 
 public class RegisterData {
 
-    private String username;
-    private String email;
+    private final String username;
+    private final String email;
 
     public RegisterData(String username, String email) {
         this.username = username;

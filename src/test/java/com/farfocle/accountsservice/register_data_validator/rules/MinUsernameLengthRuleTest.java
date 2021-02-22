@@ -8,7 +8,7 @@ import static com.farfocle.accountsservice.register_data_validator.test_utils.Ex
 public class MinUsernameLengthRuleTest {
 
     @Test
-    public void shouldReturnFalseWhenUsernameIsTooShort(){
+    public void shouldReturnFalseWhenUsernameIsTooShort() {
         Rule rule = new MinUsernameLengthRule(4);
         testUsernameFail("a", rule);
         testUsernameFail("aaa", rule);
@@ -17,7 +17,7 @@ public class MinUsernameLengthRuleTest {
 
 
     @Test
-    public void shouldReturnTrueWhenEnoughLong(){
+    public void shouldReturnTrueWhenEnoughLong() {
         Rule rule = new MinUsernameLengthRule(4);
         testUsernameSuccess("aaaa", rule);
         testUsernameSuccess("aaaaadasda", rule);
@@ -25,7 +25,7 @@ public class MinUsernameLengthRuleTest {
 
 
     @Test
-    public void shouldThrowExceptionWhenNull(){
+    public void shouldThrowExceptionWhenNull() {
         Rule rule = new MinUsernameLengthRule(4);
         testException(null, NullPointerException.class, rule);
         RegisterData nullUsername = new RegisterData(null, null);

@@ -12,10 +12,10 @@ import static org.mockito.Mockito.when;
 
 public class UsernameTakenRuleTest {
 
-    private UserExistence existenceValidator = Mockito.mock(UserExistence.class);
+    private final UserExistence existenceValidator = Mockito.mock(UserExistence.class);
 
     @Test
-    public void shouldReturnFalseWhenUsernameExists(){
+    public void shouldReturnFalseWhenUsernameExists() {
         Rule rule = new UsernameTakenRule(existenceValidator);
         RegisterData data = new RegisterData("aaa", null);
         when(existenceValidator.existsByUsername(data.getUsername())).thenReturn(true);
@@ -23,7 +23,7 @@ public class UsernameTakenRuleTest {
     }
 
     @Test
-    public void shouldReturnTrueWhenUsernameNotExists(){
+    public void shouldReturnTrueWhenUsernameNotExists() {
         Rule rule = new UsernameTakenRule(existenceValidator);
         RegisterData data = new RegisterData("aaa", null);
         when(existenceValidator.existsByUsername(data.getUsername())).thenReturn(false);
@@ -31,7 +31,7 @@ public class UsernameTakenRuleTest {
     }
 
     @Test
-    public void shouldThrowExceptionWhenUsernameIsNull(){
+    public void shouldThrowExceptionWhenUsernameIsNull() {
         Rule rule = new UsernameTakenRule(existenceValidator);
         testException(null, NullPointerException.class, rule);
         RegisterData nullUsername = new RegisterData(null, null);

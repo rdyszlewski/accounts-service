@@ -1,6 +1,6 @@
 package com.farfocle.accountsservice.register_data_validator.rules;
 
-public class MinUsernameLengthRule extends UsernameLengthRule{
+public class MinUsernameLengthRule extends UsernameLengthRule {
 
 
     public MinUsernameLengthRule(int length) {

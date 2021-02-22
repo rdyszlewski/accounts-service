@@ -8,6 +8,8 @@ import com.farfocle.accountsservice.dto.MessageResponse;
 import com.farfocle.accountsservice.dto.SignUpData;
 import com.farfocle.accountsservice.repository.User;
 import com.farfocle.accountsservice.repository.AccountsRepository;
+import com.farfocle.accountsservice.validation.SignUpValidationResult;
+import com.farfocle.accountsservice.validation.SignUpValidationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -32,26 +34,35 @@ public class AccountsController {
     private BCryptPasswordEncoder passwordEncoder;
     private AuthenticationManager authenticationManager;
     private JwtUtils jwtUtils;
+    private SignUpValidationService validationService;
 
     @Autowired
-    public AccountsController(AccountsRepository userRepository, BCryptPasswordEncoder encoder, AuthenticationManager authenticationManager, JwtUtils jwtUtils){
+    public AccountsController(AccountsRepository userRepository, BCryptPasswordEncoder encoder, AuthenticationManager authenticationManager, JwtUtils jwtUtils, SignUpValidationService service){
         this.userRepository = userRepository;
         this.passwordEncoder = encoder;
         this.authenticationManager = authenticationManager;
         this.jwtUtils = jwtUtils;
+        this.validationService = service;
     }
 
     @PostMapping(path = "/sign-up")
-    public ResponseEntity<?> registerUser(@RequestBody SignUpData signupData){
-        if(userRepository.existsByUsername(signupData.getUsername())){
-            return ResponseEntity.badRequest().body(new MessageResponse("Error: Username is already taken"));
+    public SignUpValidationResult registerUser(@RequestBody SignUpData signupData){
+        SignUpValidationResult validationResult = validationService.validate(signupData);
+        if(validationResult.isSuccess()){
+            User user = new User(signupData.getUsername(), signupData.getEmail(), passwordEncoder.encode(signupData.getPassword()));
+            userRepository.save(user);
         }
-        if(userRepository.existsByEmail(signupData.getEmail())){
-            return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already use"));
-        }
-        User user = new User(signupData.getUsername(), signupData.getEmail(), passwordEncoder.encode(signupData.getPassword()));
-        userRepository.save(user);
-        return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+        return validationResult;
+//        if(userRepository.existsByUsername(signupData.getUsername())){
+//            return ResponseEntity.badRequest().body(new MessageResponse("Error: Username is already taken"));
+//        }
+//        if(userRepository.existsByEmail(signupData.getEmail())){
+//            return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already use"));
+//        }
+//        User user = new User(signupData.getUsername(), signupData.getEmail(), passwordEncoder.encode(signupData.getPassword()));
+//        userRepository.save(user);
+//        return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+
     }
 
     @PostMapping(path = "sign-in")

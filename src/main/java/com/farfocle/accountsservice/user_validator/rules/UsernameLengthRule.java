@@ -28,10 +28,7 @@ public abstract class UsernameLengthRule implements Rule {
 
     protected abstract boolean checkLength(String username);
 
-    @Override
-    public UserValidationError getErrorType() {
-        return UserValidationError.USERNAME_TOO_SHORT;
-    }
+    public abstract UserValidationError getErrorType();
 
     @Override
     public boolean isInterrupting() {

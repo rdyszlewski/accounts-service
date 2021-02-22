@@ -5,10 +5,7 @@ import com.farfocle.accountsservice.password_validator.ErrorDetails;
 import com.farfocle.accountsservice.password_validator.PasswordData;
 import com.farfocle.accountsservice.password_validator.PasswordValidator;
 import com.farfocle.accountsservice.password_validator.ValidationResult;
-import com.farfocle.accountsservice.user_validator.UserData;
-import com.farfocle.accountsservice.user_validator.UserValidationError;
-import com.farfocle.accountsservice.user_validator.UserValidationResult;
-import com.farfocle.accountsservice.user_validator.UserValidator;
+import com.farfocle.accountsservice.user_validator.*;
 import com.sun.istack.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,11 +32,11 @@ public class SignUpValidationService {
         UserData userData = new UserData(data.getUsername(), data.getEmail());
         UserValidationResult userValidationResult = userValidator.validate(userData);
         getErrorsDetailsFromUserValidation(userValidationResult).forEach(result::addError);
-        if (userValidationResult.isValid()) {
-            PasswordData passwordData = new PasswordData(data.getPassword(), data.getUsername());
-            ValidationResult passwordValidationResult = passwordValidator.validate(passwordData);
-            getErrorsFromPasswordValidation(passwordValidationResult).forEach(result::addError);
-        }
+
+        PasswordData passwordData = new PasswordData(data.getPassword(), data.getUsername());
+        ValidationResult passwordValidationResult = passwordValidator.validate(passwordData);
+        getErrorsFromPasswordValidation(passwordValidationResult).forEach(result::addError);
+
         return result;
     }
 
@@ -47,20 +44,20 @@ public class SignUpValidationService {
         return validationResult.getErrors().stream().map(this::getErrorDetails).collect(Collectors.toList());
     }
 
-    private SignUpErrorDetails getErrorDetails(UserValidationError error) {
+    private SignUpErrorDetails getErrorDetails(UserErrorDetails error) {
         // TODO: przemyśleć, jak to powinno być robione poprawnie
         // TODO: trzeba jakoś dodać odpowiednie komunikaty i pobrać wymagane dane, jeżeli będzie to potrzebne
-        switch (error) {
+        switch (error.getError()) {
             case USERNAME_TOO_SHORT:
-                return new SignUpErrorDetails(SignUpError.USERNAME_TOO_SHORT, null, null);
+                return new SignUpErrorDetails(SignUpError.USERNAME_TOO_SHORT, error.getValue(), null);
             case USERNAME_TOO_LONG:
-                return new SignUpErrorDetails(SignUpError.USERNAME_TOO_LONG, null, null);
+                return new SignUpErrorDetails(SignUpError.USERNAME_TOO_LONG, error.getValue(), null);
             case USERNAME_TAKEN:
-                return new SignUpErrorDetails(SignUpError.USERNAME_TAKEN, null, null);
+                return new SignUpErrorDetails(SignUpError.USERNAME_TAKEN, error.getValue(), null);
             case EMAIL_TAKEN:
-                return new SignUpErrorDetails(SignUpError.EMAIL_TAKEN, null, null);
+                return new SignUpErrorDetails(SignUpError.EMAIL_TAKEN, error.getValue(), null);
             case INVALID_EMAIL:
-                return new SignUpErrorDetails(SignUpError.INVALID_EMAIL, null, null);
+                return new SignUpErrorDetails(SignUpError.INVALID_EMAIL, error.getValue(), null);
             default:
                 throw new IllegalArgumentException();
         }

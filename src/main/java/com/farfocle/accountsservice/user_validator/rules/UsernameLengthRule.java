@@ -1,21 +1,23 @@
 package com.farfocle.accountsservice.user_validator.rules;
 
 import com.farfocle.accountsservice.user_validator.UserData;
+import com.farfocle.accountsservice.user_validator.UserErrorDetails;
 import com.farfocle.accountsservice.user_validator.UserValidationError;
 
 public abstract class UsernameLengthRule implements Rule {
 
-    protected int length;
+    protected final int length;
     private final boolean interrupting;
+    private final UserErrorDetails errorDetails;
 
-    public UsernameLengthRule(int length) {
-        this.length = length;
-        this.interrupting = false;
+    public UsernameLengthRule(int length, UserValidationError errorType) {
+        this(length, false, errorType);
     }
 
-    public UsernameLengthRule(int length, boolean interrupting) {
+    public UsernameLengthRule(int length, boolean interrupting, UserValidationError errorType) {
         this.length = length;
         this.interrupting = interrupting;
+        this.errorDetails = new UserErrorDetails(errorType, String.valueOf(length));
     }
 
     @Override
@@ -28,7 +30,10 @@ public abstract class UsernameLengthRule implements Rule {
 
     protected abstract boolean checkLength(String username);
 
-    public abstract UserValidationError getErrorType();
+    @Override
+    public UserErrorDetails getErrorType(){
+        return errorDetails;
+    }
 
     @Override
     public boolean isInterrupting() {

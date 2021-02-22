@@ -5,20 +5,15 @@ import com.farfocle.accountsservice.user_validator.UserValidationError;
 public class MaxUsernameLengthRule extends UsernameLengthRule {
 
     public MaxUsernameLengthRule(int length) {
-        super(length);
+        super(length, UserValidationError.USERNAME_TOO_LONG);
     }
 
     public MaxUsernameLengthRule(int length, boolean interrupting) {
-        super(length, interrupting);
+        super(length, interrupting, UserValidationError.USERNAME_TOO_LONG);
     }
 
     @Override
     protected boolean checkLength(String username) {
         return username.length() <= length;
-    }
-
-    @Override
-    public UserValidationError getErrorType() {
-        return UserValidationError.USERNAME_TOO_LONG;
     }
 }

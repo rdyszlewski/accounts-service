@@ -9,6 +9,7 @@ import org.mockito.Mockito;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.*;
@@ -30,8 +31,8 @@ public class UserValidatorTest {
         UserValidationResult result = prepareValidatorAndValidate(userData);
         assertFalse(result.isValid());
         assertEquals(2, result.getErrorsCount());
-        assertEquals(UserValidationError.USERNAME_TOO_SHORT, result.getError(0));
-        assertEquals(UserValidationError.USERNAME_TAKEN, result.getError(1));
+        assertEquals(UserValidationError.USERNAME_TOO_SHORT, result.getError(0).getError());
+        assertEquals(UserValidationError.USERNAME_TAKEN, result.getError(1).getError());
     }
 
     private UserValidationResult prepareValidatorAndValidate(UserData userData) {
@@ -47,7 +48,7 @@ public class UserValidatorTest {
 
     private void setupRuleMock(Rule rule, boolean valid, UserValidationError error, boolean interrupting, UserData userData){
         when(rule.validate(userData)).thenReturn(valid);
-        when(rule.getErrorType()).thenReturn(error);
+        when(rule.getErrorType()).thenReturn(new UserErrorDetails(error, null));
         when(rule.isInterrupting()).thenReturn(interrupting);
     }
 
@@ -77,7 +78,7 @@ public class UserValidatorTest {
         UserValidationResult result = prepareValidatorAndValidate(userData);
         assertFalse(result.isValid());
         assertEquals(1, result.getErrorsCount());
-        assertEquals(UserValidationError.EMAIL_TAKEN, result.getError(0));
+        assertEquals(UserValidationError.EMAIL_TAKEN, result.getError(0).getError());
     }
 
     @Test
@@ -90,8 +91,8 @@ public class UserValidatorTest {
         UserValidationResult result = prepareValidatorAndValidate(userData);
         assertFalse(result.isValid());
         assertEquals(2, result.getErrorsCount());
-        assertEquals(UserValidationError.USERNAME_TOO_SHORT, result.getError(0));
-        assertEquals(UserValidationError.EMAIL_TAKEN, result.getError(1));
+        assertEquals(UserValidationError.USERNAME_TOO_SHORT, Objects.requireNonNull(result.getError(0)).getError());
+        assertEquals(UserValidationError.EMAIL_TAKEN, Objects.requireNonNull(result.getError(1)).getError());
     }
 
     @Test

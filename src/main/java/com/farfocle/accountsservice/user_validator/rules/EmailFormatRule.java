@@ -1,6 +1,7 @@
 package com.farfocle.accountsservice.user_validator.rules;
 
 import com.farfocle.accountsservice.user_validator.UserData;
+import com.farfocle.accountsservice.user_validator.UserErrorDetails;
 import com.farfocle.accountsservice.user_validator.UserValidationError;
 
 import java.util.regex.Matcher;
@@ -13,15 +14,16 @@ public class EmailFormatRule implements Rule {
     private final Pattern pattern;
 
     private final boolean interrupting;
+    private final UserErrorDetails errorDetails;
 
     public EmailFormatRule() {
-        interrupting = false;
-        pattern = Pattern.compile(PATTERN);
+        this(false);
     }
 
     public EmailFormatRule(boolean interrupting) {
         this.interrupting = interrupting;
         pattern = Pattern.compile(PATTERN);
+        errorDetails = new UserErrorDetails(UserValidationError.INVALID_EMAIL, null);
     }
 
     @Override
@@ -37,8 +39,8 @@ public class EmailFormatRule implements Rule {
     }
 
     @Override
-    public UserValidationError getErrorType() {
-        return UserValidationError.INVALID_EMAIL;
+    public UserErrorDetails getErrorType() {
+        return errorDetails;
     }
 
     @Override

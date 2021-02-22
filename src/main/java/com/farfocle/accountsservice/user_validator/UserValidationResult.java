@@ -6,7 +6,7 @@ import java.util.List;
 public final class UserValidationResult {
 
 
-    private final List<UserValidationError> errors = new LinkedList<>();
+    private final List<UserErrorDetails> errors = new LinkedList<>();
 
     public UserValidationResult() {
 
@@ -16,7 +16,7 @@ public final class UserValidationResult {
         return errors.isEmpty();
     }
 
-    public void addError(UserValidationError error) {
+    public void addError(UserErrorDetails error) {
         errors.add(error);
     }
 
@@ -24,11 +24,11 @@ public final class UserValidationResult {
         return errors.size();
     }
 
-    public List<UserValidationError> getErrors() {
+    public List<UserErrorDetails> getErrors() {
         return this.errors;
     }
 
-    public UserValidationError getError(int index) {
+    public UserErrorDetails getError(int index) {
         if (index >= 0 && index < errors.size()) {
             return errors.get(index);
         }

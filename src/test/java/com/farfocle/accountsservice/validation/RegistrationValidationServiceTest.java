@@ -2,10 +2,7 @@ package com.farfocle.accountsservice.validation;
 
 import com.farfocle.accountsservice.dto.SignUpData;
 import com.farfocle.accountsservice.password_validator.*;
-import com.farfocle.accountsservice.user_validator.UserValidationError;
-import com.farfocle.accountsservice.user_validator.UserData;
-import com.farfocle.accountsservice.user_validator.UserValidationResult;
-import com.farfocle.accountsservice.user_validator.UserValidator;
+import com.farfocle.accountsservice.user_validator.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -46,10 +43,10 @@ public class RegistrationValidationServiceTest {
         assertEquals(0, result.getErrors().size());
     }
 
-    private void setupUserValidation(SignUpData data, UserValidationError... errors){
+    private void setupUserValidation(SignUpData data, UserErrorDetails... errors){
         UserData userData = new UserData(data.getUsername(), data.getEmail());
         UserValidationResult expectedUserValidationResult = new UserValidationResult();
-        for(UserValidationError error: errors){
+        for(UserErrorDetails error: errors){
             expectedUserValidationResult.addError(error);
         }
         when(userValidator.validate(userData)).thenReturn(expectedUserValidationResult);
@@ -69,7 +66,9 @@ public class RegistrationValidationServiceTest {
     public void shouldReturnFalseWhenUserValidationIsFailed(){
         SignUpData data = new SignUpData("username","email@email.com","Password1");
 
-        setupUserValidation(data, UserValidationError.USERNAME_TOO_SHORT, UserValidationError.EMAIL_TAKEN);
+        setupUserValidation(data,
+                new UserErrorDetails(UserValidationError.USERNAME_TOO_SHORT, "5"),
+                new UserErrorDetails(UserValidationError.EMAIL_TAKEN, null));
         setupPasswordValidation(data, true);
 
         SignUpValidationResult result = service.validate(data);
@@ -84,7 +83,10 @@ public class RegistrationValidationServiceTest {
         SignUpData data = new SignUpData("username","email@email.com","Password1");
 
         setupUserValidation(data);
-        setupPasswordValidation(data, false, new ErrorDetails(PasswordError.TOO_SHORT, "5"), new ErrorDetails(PasswordError.UPPERCASE, "1"), new ErrorDetails(PasswordError.DIGITS, "1"));
+        setupPasswordValidation(data, false,
+                new ErrorDetails(PasswordError.TOO_SHORT, "5"),
+                new ErrorDetails(PasswordError.UPPERCASE, "1"),
+                new ErrorDetails(PasswordError.DIGITS, "1"));
         SignUpValidationResult result = service.validate(data);
         assertFalse(result.isSuccess());
         assertEquals(3, result.getErrors().size());
@@ -100,16 +102,20 @@ public class RegistrationValidationServiceTest {
     }
 
     @Test
-    public void shouldNotExecutePasswordValidationWhenUserValidationFailed(){
+    public void shouldReturnAllErrors(){
         SignUpData data = new SignUpData("username","email@email.com","Password1");
 
-        setupUserValidation(data, UserValidationError.EMAIL_TAKEN, UserValidationError.USERNAME_TAKEN);
+        setupUserValidation(data,
+                new UserErrorDetails(UserValidationError.EMAIL_TAKEN, null),
+                new UserErrorDetails(UserValidationError.USERNAME_TAKEN, null));
         setupPasswordValidation(data,false, new ErrorDetails(PasswordError.TOO_SHORT, "5"), new ErrorDetails(PasswordError.UPPERCASE, "1"));
 
         SignUpValidationResult result = service.validate(data);
         assertFalse(result.isSuccess());
-        assertEquals(2, result.getErrors().size());
+        assertEquals(4, result.getErrors().size());
         assertEquals(SignUpError.EMAIL_TAKEN, result.getErrors().get(0).getCode());
         assertEquals(SignUpError.USERNAME_TAKEN, result.getErrors().get(1).getCode());
+        assertEquals(SignUpError.PASS_TOO_SHORT, result.getErrors().get(2).getCode());
+        assertEquals(SignUpError.PASS_NO_UPPERCASE, result.getErrors().get(3).getCode());
     }
 }

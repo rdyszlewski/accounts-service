@@ -5,7 +5,7 @@ import com.farfocle.accountsservice.authorization.UserDetailsImpl;
 import com.farfocle.accountsservice.dto.LoginRequest;
 import com.farfocle.accountsservice.dto.LoginResponse;
 import com.farfocle.accountsservice.dto.MessageResponse;
-import com.farfocle.accountsservice.dto.RegisterRequest;
+import com.farfocle.accountsservice.dto.SignUpData;
 import com.farfocle.accountsservice.repository.User;
 import com.farfocle.accountsservice.repository.AccountsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,14 +42,14 @@ public class AccountsController {
     }
 
     @PostMapping(path = "/sign-up")
-    public ResponseEntity<?> registerUser(@RequestBody RegisterRequest registerRequest){
-        if(userRepository.existsByUsername(registerRequest.getUsername())){
+    public ResponseEntity<?> registerUser(@RequestBody SignUpData signupData){
+        if(userRepository.existsByUsername(signupData.getUsername())){
             return ResponseEntity.badRequest().body(new MessageResponse("Error: Username is already taken"));
         }
-        if(userRepository.existsByEmail(registerRequest.getEmail())){
+        if(userRepository.existsByEmail(signupData.getEmail())){
             return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already use"));
         }
-        User user = new User(registerRequest.getUsername(), registerRequest.getEmail(), passwordEncoder.encode(registerRequest.getPassword()));
+        User user = new User(signupData.getUsername(), signupData.getEmail(), passwordEncoder.encode(signupData.getPassword()));
         userRepository.save(user);
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }

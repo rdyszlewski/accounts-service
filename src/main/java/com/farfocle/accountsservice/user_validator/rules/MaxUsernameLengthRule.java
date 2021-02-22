@@ -1,4 +1,4 @@
-package com.farfocle.accountsservice.register_data_validator.rules;
+package com.farfocle.accountsservice.user_validator.rules;
 
 public class MaxUsernameLengthRule extends UsernameLengthRule {
 

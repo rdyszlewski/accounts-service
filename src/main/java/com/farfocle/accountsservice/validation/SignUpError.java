@@ -1,0 +1,18 @@
+package com.farfocle.accountsservice.validation;
+
+public enum SignUpError {
+    USERNAME_TOO_SHORT,
+    USERNAME_TOO_LONG,
+    USERNAME_TAKEN,
+    EMAIL_TAKEN,
+    INVALID_EMAIL,
+
+    PASS_TOO_SHORT,
+    PASS_TOO_LONG,
+    PASS_NO_DIGITS,
+    PASS_NO_SPECIALS,
+    PASS_NO_UPPERCASE,
+    PASS_NO_LOWERCASE,
+    PASS_IS_USERNAME,
+    PASS_HAS_WHITESPACE
+}

@@ -1,7 +1,7 @@
-package com.farfocle.accountsservice.register_data_validator.rules;
+package com.farfocle.accountsservice.user_validator.rules;
 
-import com.farfocle.accountsservice.register_data_validator.RegisterData;
-import com.farfocle.accountsservice.register_data_validator.RegisterError;
+import com.farfocle.accountsservice.user_validator.UserData;
+import com.farfocle.accountsservice.user_validator.UserValidationError;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -25,7 +25,7 @@ public class EmailFormatRule implements Rule {
     }
 
     @Override
-    public boolean validate(RegisterData data) {
+    public boolean validate(UserData data) {
         if (data == null || data.getEmail() == null) {
             throw new NullPointerException();
         }
@@ -37,8 +37,8 @@ public class EmailFormatRule implements Rule {
     }
 
     @Override
-    public RegisterError getErrorType() {
-        return RegisterError.INVALID_EMAIL;
+    public UserValidationError getErrorType() {
+        return UserValidationError.INVALID_EMAIL;
     }
 
     @Override

@@ -1,18 +1,18 @@
-package com.farfocle.accountsservice.register_data_validator;
+package com.farfocle.accountsservice.user_validator;
 
-import com.farfocle.accountsservice.register_data_validator.rules.Rule;
+import com.farfocle.accountsservice.user_validator.rules.Rule;
 
 import java.util.List;
 
-public class RegisterDataValidator {
+public class UserValidator {
 
     private final List<Rule> rules;
 
-    public RegisterDataValidator(List<Rule> rules) {
+    public UserValidator(List<Rule> rules) {
         this.rules = rules;
     }
 
-    public UserValidationResult validate(RegisterData data) {
+    public UserValidationResult validate(UserData data) {
         if (data == null) {
             throw new NullPointerException();
         }
@@ -25,7 +25,6 @@ public class RegisterDataValidator {
                 }
             }
         }
-        validationResult.setValid(validationResult.getErrorsCount() == 0);
         return validationResult;
     }
 

@@ -1,6 +1,6 @@
-package com.farfocle.accountsservice.register_data_validator;
+package com.farfocle.accountsservice.user_validator;
 
-public enum RegisterError {
+public enum UserValidationError {
     USERNAME_TAKEN,
     EMAIL_TAKEN,
     USERNAME_TOO_SHORT,

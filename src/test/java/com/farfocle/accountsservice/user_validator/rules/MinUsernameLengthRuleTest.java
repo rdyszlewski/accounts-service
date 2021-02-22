@@ -1,9 +1,9 @@
-package com.farfocle.accountsservice.register_data_validator.rules;
+package com.farfocle.accountsservice.user_validator.rules;
 
-import com.farfocle.accountsservice.register_data_validator.RegisterData;
+import com.farfocle.accountsservice.user_validator.UserData;
 import org.junit.Test;
 
-import static com.farfocle.accountsservice.register_data_validator.test_utils.ExceptionUtil.*;
+import static com.farfocle.accountsservice.user_validator.test_utils.ExceptionUtil.*;
 
 public class MinUsernameLengthRuleTest {
 
@@ -28,7 +28,7 @@ public class MinUsernameLengthRuleTest {
     public void shouldThrowExceptionWhenNull() {
         Rule rule = new MinUsernameLengthRule(4);
         testException(null, NullPointerException.class, rule);
-        RegisterData nullUsername = new RegisterData(null, null);
+        UserData nullUsername = new UserData(null, null);
         testException(nullUsername, NullPointerException.class, rule);
     }
 }

@@ -1,10 +1,10 @@
-package com.farfocle.accountsservice.register_data_validator.rules;
+package com.farfocle.accountsservice.user_validator.rules;
 
-import com.farfocle.accountsservice.register_data_validator.RegisterData;
+import com.farfocle.accountsservice.user_validator.UserData;
 import org.junit.Test;
 
-import static com.farfocle.accountsservice.register_data_validator.test_utils.ExceptionUtil.testEmailSuccess;
-import static com.farfocle.accountsservice.register_data_validator.test_utils.ExceptionUtil.testUsernameFail;
+import static com.farfocle.accountsservice.user_validator.test_utils.ExceptionUtil.testEmailSuccess;
+import static com.farfocle.accountsservice.user_validator.test_utils.ExceptionUtil.testUsernameFail;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class EmailFormatRuleTest {
@@ -58,10 +58,10 @@ public class EmailFormatRuleTest {
     @Test
     public void shouldThrowExceptionWhenEmailIsNull() {
         Rule rule = new EmailFormatRule();
-        RegisterData nullData = null;
+        UserData nullData = null;
         assertThatThrownBy(() -> rule.validate(nullData)).isInstanceOf(NullPointerException.class);
 
-        RegisterData nullEmail = new RegisterData("dada", null);
+        UserData nullEmail = new UserData("dada", null);
         assertThatThrownBy(() -> rule.validate(nullEmail)).isInstanceOf(NullPointerException.class);
     }
 

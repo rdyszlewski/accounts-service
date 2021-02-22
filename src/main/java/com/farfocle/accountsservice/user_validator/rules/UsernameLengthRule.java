@@ -1,7 +1,7 @@
-package com.farfocle.accountsservice.register_data_validator.rules;
+package com.farfocle.accountsservice.user_validator.rules;
 
-import com.farfocle.accountsservice.register_data_validator.RegisterData;
-import com.farfocle.accountsservice.register_data_validator.RegisterError;
+import com.farfocle.accountsservice.user_validator.UserData;
+import com.farfocle.accountsservice.user_validator.UserValidationError;
 
 public abstract class UsernameLengthRule implements Rule {
 
@@ -19,7 +19,7 @@ public abstract class UsernameLengthRule implements Rule {
     }
 
     @Override
-    public boolean validate(RegisterData data) throws NullPointerException {
+    public boolean validate(UserData data) throws NullPointerException {
         if (data == null || data.getUsername() == null) {
             throw new NullPointerException();
         }
@@ -29,8 +29,8 @@ public abstract class UsernameLengthRule implements Rule {
     protected abstract boolean checkLength(String username);
 
     @Override
-    public RegisterError getErrorType() {
-        return RegisterError.USERNAME_TOO_SHORT;
+    public UserValidationError getErrorType() {
+        return UserValidationError.USERNAME_TOO_SHORT;
     }
 
     @Override

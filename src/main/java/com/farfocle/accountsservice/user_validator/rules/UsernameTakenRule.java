@@ -1,8 +1,8 @@
-package com.farfocle.accountsservice.register_data_validator.rules;
+package com.farfocle.accountsservice.user_validator.rules;
 
-import com.farfocle.accountsservice.register_data_validator.RegisterData;
-import com.farfocle.accountsservice.register_data_validator.RegisterError;
-import com.farfocle.accountsservice.register_data_validator.UserExistence;
+import com.farfocle.accountsservice.user_validator.UserData;
+import com.farfocle.accountsservice.user_validator.UserValidationError;
+import com.farfocle.accountsservice.user_validator.UserExistence;
 
 public class UsernameTakenRule implements Rule {
 
@@ -20,7 +20,7 @@ public class UsernameTakenRule implements Rule {
     }
 
     @Override
-    public boolean validate(RegisterData data) {
+    public boolean validate(UserData data) {
         if (data == null || data.getUsername() == null) {
             throw new NullPointerException();
         }
@@ -28,8 +28,8 @@ public class UsernameTakenRule implements Rule {
     }
 
     @Override
-    public RegisterError getErrorType() {
-        return RegisterError.USERNAME_TAKEN;
+    public UserValidationError getErrorType() {
+        return UserValidationError.USERNAME_TAKEN;
     }
 
     @Override

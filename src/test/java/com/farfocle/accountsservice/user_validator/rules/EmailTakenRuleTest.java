@@ -1,11 +1,11 @@
-package com.farfocle.accountsservice.register_data_validator.rules;
+package com.farfocle.accountsservice.user_validator.rules;
 
-import com.farfocle.accountsservice.register_data_validator.RegisterData;
-import com.farfocle.accountsservice.register_data_validator.UserExistence;
+import com.farfocle.accountsservice.user_validator.UserData;
+import com.farfocle.accountsservice.user_validator.UserExistence;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import static com.farfocle.accountsservice.register_data_validator.test_utils.ExceptionUtil.testException;
+import static com.farfocle.accountsservice.user_validator.test_utils.ExceptionUtil.testException;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
@@ -17,7 +17,7 @@ public class EmailTakenRuleTest {
     @Test
     public void shouldReturnFalseWhenEmailExists() {
         Rule rule = new EmailTakenRule(existenceValidator);
-        RegisterData data = new RegisterData("dadad", "dada");
+        UserData data = new UserData("dadad", "dada");
         when(existenceValidator.getByEmail(data.getEmail())).thenReturn(true);
         assertFalse(rule.validate(data));
     }
@@ -25,7 +25,7 @@ public class EmailTakenRuleTest {
     @Test
     public void shouldReturnTrueWhenEmailNotExists() {
         Rule rule = new EmailTakenRule(existenceValidator);
-        RegisterData data = new RegisterData("adada", "dada");
+        UserData data = new UserData("adada", "dada");
         when(existenceValidator.getByEmail(data.getEmail())).thenReturn(false);
         assertTrue(rule.validate(data));
     }
@@ -36,7 +36,7 @@ public class EmailTakenRuleTest {
 
         testException(null, NullPointerException.class, rule);
 
-        RegisterData nullEmail = new RegisterData("dada", null);
+        UserData nullEmail = new UserData("dada", null);
         testException(nullEmail, NullPointerException.class, rule);
     }
 }

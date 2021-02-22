@@ -3,39 +3,31 @@ package com.farfocle.accountsservice.register_data_validator.rules;
 import com.farfocle.accountsservice.register_data_validator.RegisterData;
 import org.junit.Test;
 
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static com.farfocle.accountsservice.register_data_validator.test_utils.ExceptionUtil.*;
+
 
 public class MaxUsernameLengthRuleTest {
 
     @Test
     public void shouldReturnFalseWhenUsernameIsTooLong(){
         Rule rule = new MaxUsernameLengthRule(5);
-        RegisterData data1 = new RegisterData("aaaaaaaaaaa", null);
-        assertFalse(rule.validate(data1));
-
-        RegisterData data2 = new RegisterData("aaaaaa", null);
-        assertFalse(rule.validate(data2));
+        testUsernameFail("aaaaaaaaaaa", rule);
+        testUsernameFail("aaaaaa", rule);
     }
 
     @Test
     public void shouldReturnTrueWhenUsernameIsNotTooLong(){
         Rule rule = new MaxUsernameLengthRule(5);
-        RegisterData data1 = new RegisterData("a", null);
-        assertTrue(rule.validate(data1));
-
-        RegisterData data2 = new RegisterData("aaaaa", null);
-        assertTrue(rule.validate(data2));
+        testUsernameSuccess("a", rule);;
+        testUsernameSuccess("aaaaa", rule);
     }
 
     @Test
     public void shouldThrowException(){
         Rule rule = new MaxUsernameLengthRule(5);
-        RegisterData nullData = null;
-        assertThatThrownBy(()->rule.validate(nullData)).isInstanceOf(NullPointerException.class);
+        testException(null, NullPointerException.class, rule);
 
         RegisterData nullUsername = new RegisterData(null, null);
-        assertThatThrownBy(()->rule.validate(nullUsername)).isInstanceOf(NullPointerException.class);
+        testException(nullUsername, NullPointerException.class, rule);
     }
 }

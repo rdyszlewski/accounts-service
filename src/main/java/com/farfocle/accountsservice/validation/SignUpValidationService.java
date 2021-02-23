@@ -53,7 +53,8 @@ public class SignUpValidationService {
         this.messageCreator = messageCreator;
 
         passwordValidator.getAvailableErrorDetails().forEach(x->{
-            SignUpErrorDetails details = new SignUpErrorDetails(PASSWORD_ERRORS_MAP.get(x.getError()), x.getValidValue(), null);
+            String message = messageCreator.getMessage(PASSWORD_ERRORS_MAP.get(x.getError()), x.getValidValue());
+            SignUpErrorDetails details = new SignUpErrorDetails(PASSWORD_ERRORS_MAP.get(x.getError()), x.getValidValue(), message);
             passwordErrorDetailsMap.put(x.getError(), details);
         });
     }
@@ -77,7 +78,8 @@ public class SignUpValidationService {
 
     private SignUpErrorDetails getErrorDetails(UserErrorDetails error) {
         assert USER_ERRORS_MAP.containsKey(error.getError());
-        return new SignUpErrorDetails(USER_ERRORS_MAP.get(error.getError()), error.getValue(), null);
+        String message = messageCreator.getMessage(USER_ERRORS_MAP.get(error.getError()), error.getValue());
+        return new SignUpErrorDetails(USER_ERRORS_MAP.get(error.getError()), error.getValue(), message);
     }
 
     private List<SignUpErrorDetails> getErrorsFromPasswordValidation(ValidationResult validationResult) {

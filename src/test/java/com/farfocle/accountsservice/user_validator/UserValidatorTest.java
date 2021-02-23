@@ -78,7 +78,7 @@ public class UserValidatorTest {
         UserValidationResult result = prepareValidatorAndValidate(userData);
         assertFalse(result.isValid());
         assertEquals(1, result.getErrorsCount());
-        assertEquals(UserValidationError.EMAIL_TAKEN, result.getError(0).getError());
+        assertEquals(UserValidationError.EMAIL_TAKEN, Objects.requireNonNull(result.getError(0)).getError());
     }
 
     @Test

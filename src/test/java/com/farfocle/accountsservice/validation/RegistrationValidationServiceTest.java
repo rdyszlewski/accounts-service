@@ -7,6 +7,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import java.util.Arrays;
+
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
@@ -59,6 +61,7 @@ public class RegistrationValidationServiceTest {
         for(ErrorDetails details: errorDetails){
             expectedPasswordValidationResult.addError(details);
         }
+        when(passwordValidator.getAvailableErrorDetails()).thenReturn(Arrays.asList(errorDetails));
         when(passwordValidator.validate(password)).thenReturn(expectedPasswordValidationResult);
     }
 
@@ -87,6 +90,8 @@ public class RegistrationValidationServiceTest {
                 new ErrorDetails(PasswordError.TOO_SHORT, "5"),
                 new ErrorDetails(PasswordError.UPPERCASE, "1"),
                 new ErrorDetails(PasswordError.DIGITS, "1"));
+        // TODO: coś tutaj się delikatnie zepsuło. Przemyśleć, jak to rozwiązać
+        service = new SignUpValidationService(passwordValidator, userValidator, messageCreator);
         SignUpValidationResult result = service.validate(data);
         assertFalse(result.isSuccess());
         assertEquals(3, result.getErrors().size());
@@ -108,8 +113,11 @@ public class RegistrationValidationServiceTest {
         setupUserValidation(data,
                 new UserErrorDetails(UserValidationError.EMAIL_TAKEN, null),
                 new UserErrorDetails(UserValidationError.USERNAME_TAKEN, null));
-        setupPasswordValidation(data,false, new ErrorDetails(PasswordError.TOO_SHORT, "5"), new ErrorDetails(PasswordError.UPPERCASE, "1"));
-
+        setupPasswordValidation(data,false,
+                new ErrorDetails(PasswordError.TOO_SHORT, "5"),
+                new ErrorDetails(PasswordError.UPPERCASE, "1"));
+        // TODO: tutaj też się coś lekko zepsuło
+        service = new SignUpValidationService(passwordValidator, userValidator, messageCreator);
         SignUpValidationResult result = service.validate(data);
         assertFalse(result.isSuccess());
         assertEquals(4, result.getErrors().size());

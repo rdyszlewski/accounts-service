@@ -3,6 +3,7 @@ package com.farfocle.accountsservice.password_validator;
 import com.farfocle.accountsservice.password_validator.rules.Rule;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class PasswordValidator {
 
@@ -24,6 +25,10 @@ public class PasswordValidator {
         }
         result.setValid(result.getErrors().isEmpty());
         return result;
+    }
+
+    public List<ErrorDetails> getAvailableErrorDetails(){
+        return rules.stream().map(Rule::getErrorDetails).collect(Collectors.toList());
     }
 
 }

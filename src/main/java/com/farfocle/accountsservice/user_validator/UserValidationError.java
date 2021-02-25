@@ -5,5 +5,6 @@ public enum UserValidationError {
     EMAIL_TAKEN,
     USERNAME_TOO_SHORT,
     USERNAME_TOO_LONG,
-    INVALID_EMAIL
+    INVALID_EMAIL,
+    NOT_ALLOWED_CHARACTER
 }

@@ -11,7 +11,7 @@ import static org.junit.Assert.assertTrue;
 
 public class NotAllowedCharacterRuleTest {
 
-    List<Character> notAllowedCharacters = Arrays.asList(' ', ';');
+    List<Character> notAllowedCharacters = Arrays.asList(' ', ';', '#', '^');
 
     @Test
     public void shouldReturnTrueWhenAllAllowedChars(){
@@ -24,6 +24,13 @@ public class NotAllowedCharacterRuleTest {
     public void shouldReturnFalseWhenNonAllowedChar(){
         Rule rule = new NotAllowedCharacterRule(this.notAllowedCharacters);
         UserData data = new UserData("aa a", null);
+        assertFalse(rule.validate(data));
+    }
+
+    @Test
+    public void shouldReturnFalseWhenAllNotAllowed(){
+        Rule rule = new NotAllowedCharacterRule(this.notAllowedCharacters);
+        UserData data = new UserData("  ^#;", null);
         assertFalse(rule.validate(data));
     }
 }

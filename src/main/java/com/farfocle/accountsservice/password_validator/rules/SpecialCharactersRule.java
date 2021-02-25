@@ -15,8 +15,7 @@ public class SpecialCharactersRule extends CharactersRule {
     private final PasswordError errorType = PasswordError.SPECIAL_CHARACTERS;
 
     public SpecialCharactersRule(int value) {
-        super(value, PasswordError.SPECIAL_CHARACTERS);
-        loadSpecialCharacters(null);
+        this(value, false);
     }
 
     public SpecialCharactersRule(int value, boolean interrupting) {
